@@ -1,5 +1,17 @@
 server:
   port: 7890
-  
+
 autocode:
   root: ""
+
+zap:
+  director: log
+  format: console
+  stacktrace-key: stacktrace
+  encode-level: LowercaseColorLevelEncoder
+  prefix: [MEIS_server]
+  level: info
+  log-in-console: true
+  show-line: true
+
+  
