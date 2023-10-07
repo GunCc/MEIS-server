@@ -1,5 +1,5 @@
 server:
-  port: 7890
+  addr: 8888
 
 autocode:
   root: ""
