@@ -1,0 +1,10 @@
+2023/10/07 - 10:58:50.182	[31merror[0m	F:/后端项目/MEIS-server/core/server.go:24	listen tcp: lookup tcp/%!d(string=7890): getaddrinfow: The specified class was not found.
+2023/10/07 - 11:01:42.169	[31merror[0m	F:/后端项目/MEIS-server/core/server.go:24	listen tcp: lookup tcp/%!d(string=7890): getaddrinfow: The specified class was not found.
+2023/10/07 - 11:02:34.577	[31merror[0m	F:/后端项目/MEIS-server/core/server.go:24	listen tcp: lookup tcp/%!d(string=7890): getaddrinfow: The specified class was not found.
+2023/10/07 - 11:04:41.275	[31merror[0m	F:/后端项目/MEIS-server/core/server.go:24	listen tcp: lookup tcp/%!d(string=7890): getaddrinfow: The specified class was not found.
+2023/10/07 - 11:04:42.256	[31merror[0m	F:/后端项目/MEIS-server/core/server.go:24	listen tcp: lookup tcp/%!d(string=7890): getaddrinfow: The specified class was not found.
+2023/10/07 - 11:31:50.682	[31merror[0m	F:/后端项目/MEIS-server/core/server.go:24	listen tcp: lookup tcp/%!d(string=7890): getaddrinfow: The specified class was not found.
+2023/10/07 - 11:31:57.230	[31merror[0m	F:/后端项目/MEIS-server/core/server.go:24	listen tcp: lookup tcp/%!d(string=7890): getaddrinfow: The specified class was not found.
+2023/10/07 - 11:32:13.117	[31merror[0m	F:/后端项目/MEIS-server/core/server.go:24	listen tcp: lookup tcp/%!d(string=7890): getaddrinfow: The specified class was not found.
+2023/10/07 - 11:32:32.752	[31merror[0m	F:/后端项目/MEIS-server/core/server.go:24	listen tcp: lookup tcp/%!d(string=7890): getaddrinfow: The specified class was not found.
+2023/10/07 - 11:33:01.348	[31merror[0m	F:/后端项目/MEIS-server/core/server.go:24	listen tcp: lookup tcp/%!d(string=7890): getaddrinfow: The specified class was not found.
