@@ -20,7 +20,7 @@ func (b *BaseApi) GetCaptcha(ctx *gin.Context) {
 		response.FailWithMessage("验证码生成失败", ctx)
 		return
 	}
-	response.SuccessWithData(sysResponse.SysCaptcha{
+	response.SuccessWithDetailed(sysResponse.SysCaptcha{
 		CaptchaId:     id,
 		ImagePath:     b64s,
 		OpenCaptcha:   oc,

@@ -14,6 +14,13 @@ type server interface {
 }
 
 func RunServer() {
+
+	// 初始化redis
+	if global.MEIS_CONFIG.System.UseMultipoint || global.MEIS_CONFIG.System.UseRedis {
+		// 初始化redis服务
+		initialize.Redis()
+	}
+
 	Router := initialize.Routers()
 
 	address := fmt.Sprintf(":%d", global.MEIS_CONFIG.Server.Addr)

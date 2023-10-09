@@ -15,4 +15,19 @@ var (
 			NotEmpty(),
 		},
 	}
+
+	LoginVerify = Rules{
+		"Account": {
+			NotEmpty(),
+		},
+		"Password": {
+			NotEmpty(),
+		},
+		"Captcha": {
+			NotEmpty(),
+		},
+		"CaptchaId": {
+			NotEmpty(),
+		},
+	}
 )

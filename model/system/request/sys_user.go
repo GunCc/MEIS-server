@@ -7,3 +7,10 @@ type Register struct {
 	RoleId   int    `json:"role"`
 	Enalble  int    `json:"enable"`
 }
+
+type Login struct {
+	Account   string `json:"account"`
+	Password  string `json:"password"`
+	Captcha   string `json:"captcha"`
+	CaptchaId string `json:"captcha_id"`
+}

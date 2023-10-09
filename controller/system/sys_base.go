@@ -8,7 +8,7 @@ import (
 	"github.com/mojocn/base64Captcha"
 )
 
-var store = base64Captcha.DefaultMemStore
+var Store = base64Captcha.DefaultMemStore
 
 // 获取验证码
 func (u *UserController) GetCaptcha(ctx *gin.Context) (id, b64s string, oc bool, keylong int, err error) {
@@ -21,7 +21,7 @@ func (u *UserController) GetCaptcha(ctx *gin.Context) (id, b64s string, oc bool,
 		global.BlackCache.Set(key, 1, time.Second*time.Duration(timeout))
 	}
 
-	if open == 0 || open < interfaceToInt(v) {
+	if open == 0 || open < u.InterfaceToInt(v) {
 		oc = true
 	}
 
@@ -33,7 +33,7 @@ func (u *UserController) GetCaptcha(ctx *gin.Context) (id, b64s string, oc bool,
 	driver := base64Captcha.NewDriverDigit(width, height, keylong, 0.7, 80)
 
 	// 验证码构造函数
-	cp := base64Captcha.NewCaptcha(driver, store)
+	cp := base64Captcha.NewCaptcha(driver, Store)
 
 	id, b64s, err = cp.Generate()
 	// 验证码生成
@@ -41,7 +41,7 @@ func (u *UserController) GetCaptcha(ctx *gin.Context) (id, b64s string, oc bool,
 }
 
 // 类型转换
-func interfaceToInt(v interface{}) (i int) {
+func (u *UserController) InterfaceToInt(v interface{}) (i int) {
 	switch v := v.(type) {
 	case int:
 		i = v

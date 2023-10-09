@@ -21,6 +21,7 @@ func Routers() *gin.Engine {
 	SystemRouter := router.RouterGroupApp.System
 	{
 		SystemRouter.InitBaseRouter(PublicGroup)
+		SystemRouter.InitUserRouter(PublicGroup)
 	}
 
 	// PrivateGroup := Router.Group("")

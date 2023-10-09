@@ -7,4 +7,6 @@ type Config struct {
 	System   System   `mapstructure:"system" json:"system" yaml:"system"`
 	Mysql    Mysql    `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
 	Captcha  Captcha  `mapstructure:"captcha" json:"captcha" yaml:"captcha"`
+	JWT      JWT      `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
+	Redis    Redis    `mapstructure:"redis" json:"redis" yaml:"redis"`
 }

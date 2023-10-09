@@ -16,6 +16,8 @@ zap:
 
 system:
   db-type: mysql
+  use-multipoint: true 
+  use-redis: true
 
 mysql:
   path: "127.0.0.1"
@@ -35,3 +37,15 @@ captcha:
   width: 200
   height: 80
   key-long: 6
+
+
+jwt:
+  signing-key: meis
+  expires-time: 7d
+  buffer-time: 1d
+  issuer: meis
+
+redis:
+  db: 0
+  addr: 127.0.0.1:6379
+  password: ""

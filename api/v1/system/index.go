@@ -9,4 +9,5 @@ type SystemApi struct {
 
 var (
 	BaseController = controller.ControllerGroupApp.SystemControllerGroup.UserController
+	JWTController  = controller.ControllerGroupApp.SystemControllerGroup.JWTController
 )

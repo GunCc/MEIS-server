@@ -36,7 +36,7 @@ func SuccessWithMessage(message string, c *gin.Context) {
 	Result(SUCCESS, map[string]interface{}{}, message, c)
 }
 
-func SuccessWithData(data interface{}, message string, c *gin.Context) {
+func SuccessWithData(data interface{}, c *gin.Context) {
 	Result(SUCCESS, data, "操作成功", c)
 }
 
