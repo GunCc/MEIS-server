@@ -10,9 +10,6 @@ import (
 
 var store = base64Captcha.DefaultMemStore
 
-type UserController struct {
-}
-
 // 获取验证码
 func (u *UserController) GetCaptcha(ctx *gin.Context) (id, b64s string, oc bool, keylong int, err error) {
 	open := global.MEIS_CONFIG.Captcha.Open // 是否打开防爆

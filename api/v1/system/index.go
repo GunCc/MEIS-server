@@ -4,6 +4,7 @@ import "MEIS-server/controller"
 
 type SystemApi struct {
 	BaseApi
+	UserApi
 }
 
 var (
