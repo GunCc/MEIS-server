@@ -3,6 +3,7 @@ package main
 import (
 	"MEIS-server/core"
 	"MEIS-server/global"
+	"MEIS-server/initialize"
 
 	"go.uber.org/zap"
 )
@@ -14,7 +15,7 @@ func main() {
 	// 替换全局日志
 	zap.ReplaceGlobals(global.MEIS_LOGGER)
 	// 数据库链接
-	// global.MEIS_DB = initialize.Gorm()
+	global.MEIS_DB = initialize.Gorm()
 
 	if global.MEIS_DB != nil {
 		// 程序结束前关闭数据库链接

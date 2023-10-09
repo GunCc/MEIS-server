@@ -17,7 +17,6 @@ zap:
 system:
   db-type: mysql
 
-
 mysql:
   path: "127.0.0.1"
   port: "3306"
@@ -29,3 +28,10 @@ mysql:
   log-mode: ""
   max-idle-conns: 10
   max-open-conns: 100
+
+captcha:
+  open: 0
+  timeout: 3600
+  width: 200
+  height: 80
+  key-long: 6

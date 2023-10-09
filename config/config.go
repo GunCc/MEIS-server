@@ -6,4 +6,5 @@ type Config struct {
 	Zap      Zap      `yaml:"zap" mapstructure:"zap" json:"zap"`
 	System   System   `mapstructure:"system" json:"system" yaml:"system"`
 	Mysql    Mysql    `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
+	Captcha  Captcha  `mapstructure:"captcha" json:"captcha" yaml:"captcha"`
 }
