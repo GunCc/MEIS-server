@@ -18,6 +18,7 @@ func main() {
 	global.MEIS_DB = initialize.Gorm()
 
 	if global.MEIS_DB != nil {
+		initialize.RegisterTables(global.MEIS_DB)
 		// 程序结束前关闭数据库链接
 		db, _ := global.MEIS_DB.DB()
 		defer db.Close()

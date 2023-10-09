@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"MEIS-server/global"
+	"MEIS-server/model/system"
 	"os"
 
 	"go.uber.org/zap"
@@ -14,7 +15,12 @@ func Gorm() *gorm.DB {
 
 // RegisterTables 注册数据库表专用
 func RegisterTables(db *gorm.DB) {
-	err := db.AutoMigrate()
+	// 注册表
+	err := db.AutoMigrate(
+		&system.JwtBlacklist{},
+		&system.SysRole{},
+		&system.SysUser{},
+	)
 	if err != nil {
 		global.MEIS_LOGGER.Error("表初始化失败", zap.Error(err))
 		os.Exit(0)
