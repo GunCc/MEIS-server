@@ -47,3 +47,9 @@
 2023/10/09 - 14:14:31.793	[34minfo[0m	F:/zzk_project/MEIS-server/core/server.go:30	启动成功，端口号：	{"端口号：": ":8888"}
 2023/10/09 - 14:14:41.683	[34minfo[0m	F:/zzk_project/MEIS-server/initialize/redis.go:25	redis链接返回:	{"pong": "PONG"}
 2023/10/09 - 14:14:41.705	[34minfo[0m	F:/zzk_project/MEIS-server/core/server.go:30	启动成功，端口号：	{"端口号：": ":8888"}
+2023/10/09 - 14:19:07.246	[34minfo[0m	F:/zzk_project/MEIS-server/initialize/gorm.go:28	表初始化成功
+2023/10/09 - 14:19:07.251	[34minfo[0m	F:/zzk_project/MEIS-server/initialize/redis.go:25	redis链接返回:	{"pong": "PONG"}
+2023/10/09 - 14:19:07.252	[34minfo[0m	F:/zzk_project/MEIS-server/core/server.go:30	启动成功，端口号：	{"端口号：": ":8888"}
+2023/10/09 - 15:29:30.061	[34minfo[0m	F:/zzk_project/MEIS-server/initialize/gorm.go:28	表初始化成功
+2023/10/09 - 15:29:30.065	[34minfo[0m	F:/zzk_project/MEIS-server/initialize/redis.go:25	redis链接返回:	{"pong": "PONG"}
+2023/10/09 - 15:29:30.066	[34minfo[0m	F:/zzk_project/MEIS-server/core/server.go:30	启动成功，端口号：	{"端口号：": ":8888"}

@@ -16,7 +16,7 @@ zap:
 
 system:
   db-type: mysql
-  use-multipoint: true 
+  use-multipoint: true
   use-redis: true
 
 mysql:
@@ -37,7 +37,6 @@ captcha:
   width: 200
   height: 80
   key-long: 6
-
 
 jwt:
   signing-key: meis

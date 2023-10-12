@@ -1,6 +1,7 @@
 package initialize
 
 import (
+	"MEIS-server/middleware"
 	"MEIS-server/router"
 
 	"github.com/gin-gonic/gin"
@@ -8,6 +9,8 @@ import (
 
 func Routers() *gin.Engine {
 	Router := gin.Default()
+
+	Router.Use(middleware.Cors())
 
 	PublicGroup := Router.Group("")
 
