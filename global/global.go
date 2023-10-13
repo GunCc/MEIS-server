@@ -7,6 +7,7 @@ import (
 	"github.com/songzhibin97/gkit/cache/local_cache"
 	"github.com/spf13/viper"
 	"go.uber.org/zap"
+	gomail "gopkg.in/gomail.v2"
 	"gorm.io/gorm"
 )
 
@@ -16,6 +17,8 @@ var (
 	MEIS_LOGGER *zap.Logger
 	MEIS_DB     *gorm.DB
 	MEIS_REDIS  *redis.Client
+
+	MEIS_MAILER *gomail.Dialer
 
 	// 黑名单
 	BlackCache local_cache.Cache

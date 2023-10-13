@@ -2,9 +2,12 @@ package system
 
 import (
 	"MEIS-server/global"
+	"MEIS-server/model/system/request"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
+	"gopkg.in/gomail.v2"
 )
 
 var Store = base64Captcha.DefaultMemStore
@@ -49,4 +52,21 @@ func (u *UserController) InterfaceToInt(v interface{}) (i int) {
 		i = 0
 	}
 	return
+}
+
+// 发送验证码
+func (u *UserController) SendEmail(emailTo request.SysReqEmailCode) (res string, err error) {
+	sc, err := global.MEIS_MAILER.Dial()
+	if err != nil {
+		return "发送失败", err
+	}
+	m := gomail.NewMessage()
+	m.SetHeader("From", "MEIS---邮箱验证码")
+	m.SetHeader("To", emailTo.ToMail)
+	m.SetHeader("Subject", "邮箱验证码")
+	m.SetBody("text/html", fmt.Sprintf("邮箱发送成功,验证码：%v", "123"))
+	if err = gomail.Send(sc, m); err != nil {
+		return "发送失败", err
+	}
+	return fmt.Sprintf("邮箱发送成功,验证码：%v", "123"), nil
 }

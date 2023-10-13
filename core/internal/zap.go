@@ -62,7 +62,7 @@ func (z *_zap) GetEncoderCore(l zapcore.Level, level zap.LevelEnablerFunc) zapco
 	return zapcore.NewCore(z.GetEncoder(), writer, level)
 }
 
-//  根据 zapcore.Level 获取 zap.LevelEnablerFunc
+// 根据 zapcore.Level 获取 zap.LevelEnablerFunc
 func (z *_zap) GetLevelPriority(level zapcore.Level) zap.LevelEnablerFunc {
 	switch level {
 	case zapcore.DebugLevel:

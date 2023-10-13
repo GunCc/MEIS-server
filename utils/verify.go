@@ -30,4 +30,10 @@ var (
 			NotEmpty(),
 		},
 	}
+
+	EmailVerify = Rules{
+		"Email": {
+			NotEmpty(),
+		},
+	}
 )

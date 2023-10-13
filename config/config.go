@@ -9,4 +9,5 @@ type Config struct {
 	Captcha  Captcha  `mapstructure:"captcha" json:"captcha" yaml:"captcha"`
 	JWT      JWT      `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
 	Redis    Redis    `mapstructure:"redis" json:"redis" yaml:"redis"`
+	Email    Email    `mapstructure:"email" json:"email" yaml:"email"`
 }

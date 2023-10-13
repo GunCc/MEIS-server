@@ -7,9 +7,9 @@ import (
 )
 
 type Response struct {
-	Code int         `json:"code"`
-	Data interface{} `json:"data"`
-	Msg  string      `json:"msg"`
+	Code    int         `json:"code"`
+	Data    interface{} `json:"data"`
+	Message string      `json:"message"`
 }
 
 // 状态码
@@ -20,9 +20,9 @@ var (
 
 func Result(code int, data interface{}, message string, c *gin.Context) {
 	c.JSON(http.StatusOK, Response{
-		Code: code,
-		Msg:  message,
-		Data: data,
+		Code:    code,
+		Message: message,
+		Data:    data,
 	})
 }
 

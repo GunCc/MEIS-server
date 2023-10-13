@@ -9,7 +9,7 @@ zap:
   format: console
   stacktrace-key: stacktrace
   encode-level: LowercaseColorLevelEncoder
-  prefix: [MEIS_server]
+  prefix: MEIS_server
   level: info
   log-in-console: true
   show-line: true
@@ -48,3 +48,8 @@ redis:
   db: 0
   addr: 127.0.0.1:6379
   password: ""
+
+email:
+  account: 15817405529@163.com
+  auth-code: IRGRSOJLCOETCEIC
+  ttl: 5   
