@@ -3,6 +3,7 @@ package system
 import (
 	"MEIS-server/global"
 	"MEIS-server/model/system/request"
+	"context"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -60,6 +61,11 @@ func (u *UserController) SendEmail(emailTo request.SysReqEmailCode) (res string,
 	if err != nil {
 		return "发送失败", err
 	}
+
+	// 生成验证码
+	global.MEIS_REDIS.Set(context.Context(), emailTo.ToMail)
+
+	// 发送邮箱
 	m := gomail.NewMessage()
 	m.SetHeader("From", "MEIS---邮箱验证码")
 	m.SetHeader("To", emailTo.ToMail)
