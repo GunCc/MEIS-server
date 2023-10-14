@@ -5,7 +5,9 @@ import (
 	"MEIS-server/model/system"
 	"MEIS-server/model/system/request"
 	"MEIS-server/utils"
+	"context"
 	"errors"
+	"fmt"
 
 	uuid "github.com/satori/go.uuid"
 	"gorm.io/gorm"
@@ -17,7 +19,7 @@ type UserController struct {
 // 注册
 func (u *UserController) Register(register request.Register) (err error) {
 
-	if !errors.Is(global.MEIS_DB.Where("nickname = ?", register.NickName).First(&system.SysUser{}).Error, gorm.ErrRecordNotFound) {
+	if !errors.Is(global.MEIS_DB.Where("nick_name = ?", register.NickName).First(&system.SysUser{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("昵称重复")
 	}
 
@@ -28,6 +30,16 @@ func (u *UserController) Register(register request.Register) (err error) {
 
 	if register.Email != "" && !errors.Is(global.MEIS_DB.Where("email = ?", register.Email).First(&system.SysUser{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("邮箱已经被注册")
+	}
+
+	s, err := global.MEIS_REDIS.Get(context.Background(), register.Email).Result()
+	if err != nil {
+		return err
+	}
+	fmt.Println("s", s)
+	fmt.Println(" register.Code", utils.BcryptHash(register.Code))
+	if !utils.BcryptCheck(s, register.Code) {
+		return errors.New("验证码不匹配")
 	}
 
 	sys_user := system.SysUser{

@@ -7,6 +7,7 @@ import (
 	systemModel "MEIS-server/model/system"
 	"MEIS-server/model/system/request"
 	systemRes "MEIS-server/model/system/response"
+	"fmt"
 
 	"MEIS-server/utils"
 	"time"
@@ -29,6 +30,7 @@ func (U *UserApi) Register(ctx *gin.Context) {
 		return
 	}
 
+	fmt.Println("fmt", register)
 	err = utils.Verify(register, utils.RegisterVerify)
 	if err != nil {
 		global.MEIS_LOGGER.Error("注册校验报错", zap.Error(err))

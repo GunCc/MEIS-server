@@ -4,8 +4,9 @@ type Register struct {
 	NickName string `json:"nickname"`
 	Password string `json:"password"`
 	Email    string `json:"email"`
-	RoleId   int    `json:"role"`
+	RoleId   int    `json:"role_id"`
 	Enalble  int    `json:"enable"`
+	Code     string `json:"code"`
 }
 
 type Login struct {

@@ -11,9 +11,9 @@ var (
 		"Email": {
 			NotEmpty(),
 		},
-		"RoleId": {
-			NotEmpty(),
-		},
+		// "RoleId": {
+		// 	NotEmpty(),
+		// },
 	}
 
 	LoginVerify = Rules{
