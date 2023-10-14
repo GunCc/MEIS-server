@@ -36,7 +36,7 @@ captcha:
   timeout: 3600
   width: 200
   height: 80
-  key-long: 6
+  key-long: 4
 
 jwt:
   signing-key: meis

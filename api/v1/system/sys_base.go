@@ -18,6 +18,7 @@ type BaseApi struct {
 // 获取验证码
 func (b *BaseApi) GetCaptcha(ctx *gin.Context) {
 	id, b64s, oc, err := BaseController.GetCaptcha(ctx)
+	fmt.Println("是不是这样！！！", err)
 	if err != nil {
 		global.MEIS_LOGGER.Error("验证码生成失败：", zap.Error(err))
 		response.FailWithMessage("验证码生成失败", ctx)
@@ -49,7 +50,7 @@ func (b *BaseApi) SendEmail(ctx *gin.Context) {
 		return
 	}
 
-	str, err := BaseController.SendEmail(email)
+	str, err := MailerController.SendEmail(email)
 	if err != nil {
 		global.MEIS_LOGGER.Error("邮箱发送失败：", zap.Error(err))
 		response.FailWithMessage("邮箱发送失败", ctx)
