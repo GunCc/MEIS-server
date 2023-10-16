@@ -54,6 +54,7 @@ func (u *UserController) Register(register request.Register) (err error) {
 
 	// 加密password
 	sys_user.Password = utils.BcryptHash(register.Password)
+	fmt.Println("角色信息", sys_user)
 
 	err = global.MEIS_DB.Create(&sys_user).Error
 
@@ -63,10 +64,12 @@ func (u *UserController) Register(register request.Register) (err error) {
 func (u *UserController) Login(login request.Login) (innerUser *system.SysUser, err error) {
 	var sys_user system.SysUser
 
-	if errors.Is(global.MEIS_DB.Where("email = ? or nickname = ?", login.Account, login.Account).First(&sys_user).Error, gorm.ErrRecordNotFound) {
+	if errors.Is(global.MEIS_DB.Where("email = ? or nick_name = ?", login.Account, login.Account).First(&sys_user).Error, gorm.ErrRecordNotFound) {
 		return nil, errors.New("查无此人")
 	}
 
+	fmt.Println("login.Password", login.Password)
+	fmt.Println("sys_user.Password", sys_user.Password)
 	if b := utils.BcryptCheck(sys_user.Password, login.Password); !b {
 		return nil, errors.New("密码错误")
 	}

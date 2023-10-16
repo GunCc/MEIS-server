@@ -8,7 +8,7 @@ import (
 	"github.com/mojocn/base64Captcha"
 )
 
-var Store base64Captcha.Store = RedisCaptchaStore{}
+var Store = base64Captcha.DefaultMemStore
 
 // 获取验证码
 func (u *UserController) GetCaptcha(ctx *gin.Context) (id, b64s string, oc bool, err error) {

@@ -44,7 +44,7 @@ func (mail *MailerController) SendEmail(emailTo request.SysReqEmailCode) (res st
 		return "时间格式化错误", err
 	}
 	// 生成验证码 直接顶替之前的验证码并且加密
-	global.MEIS_REDIS.Set(context.Background(), emailTo.ToMail, utils.BcryptHash(code), time.Minute*dr)
+	global.MEIS_REDIS.Set(context.Background(), emailTo.ToMail, utils.BcryptHash(code), dr)
 
 	// 发送邮箱
 	m := gomail.NewMessage()

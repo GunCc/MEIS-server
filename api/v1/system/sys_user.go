@@ -10,7 +10,6 @@ import (
 	"fmt"
 
 	"MEIS-server/utils"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
@@ -70,39 +69,39 @@ func (u *UserApi) Login(ctx *gin.Context) {
 	}
 
 	// 验证码校验
-	open := global.MEIS_CONFIG.Captcha.Open       // 是否开启防爆次数
-	timeout := global.MEIS_CONFIG.Captcha.Timeout // 缓存超时时间
-	key := ctx.ClientIP()
-	v, ok := global.BlackCache.Get(key)
-	if !ok {
-		global.BlackCache.Set(key, 1, time.Second*time.Duration(timeout))
-	}
+	// open := global.MEIS_CONFIG.Captcha.Open       // 是否开启防爆次数
+	// timeout := global.MEIS_CONFIG.Captcha.Timeout // 缓存超时时间
+	// key := ctx.ClientIP()
+	// v, ok := global.BlackCache.Get(key)
+	// if !ok {
+	// 	global.BlackCache.Set(key, 1, time.Second*time.Duration(timeout))
+	// }
 
-	var oc bool = open == 0 || open < BaseController.InterfaceToInt(v)
+	// var oc bool = open == 0 || open < BaseController.InterfaceToInt(v)
 
-	if !oc || system.Store.Verify(login.CaptchaId, login.Captcha, true) {
+	if system.Store.Verify(login.CaptchaId, login.Captcha, true) {
 		user, err := BaseController.Login(login)
 		if err != nil {
 
 			global.MEIS_LOGGER.Error("错误:", zap.Error(err))
 			// 验证码次数+1
-			global.BlackCache.Increment(key, 1)
+			// global.BlackCache.Increment(key, 1)
 			response.FailWithMessage(err.Error(), ctx)
 			return
 		}
 
-		if user.Enalble != 1 {
-			global.MEIS_LOGGER.Error("登陆失败! 用户被禁止登录!")
-			// 验证码次数+1
-			global.BlackCache.Increment(key, 1)
-			response.FailWithMessage("用户被禁止登录", ctx)
-			return
-		}
+		// if user.Enalble != 1 {
+		// 	global.MEIS_LOGGER.Error("登陆失败! 用户被禁止登录!")
+		// 	// 验证码次数+1
+		// 	// global.BlackCache.Increment(key, 1)
+		// 	response.FailWithMessage("用户被禁止登录", ctx)
+		// 	return
+		// }
 		u.TokenNext(ctx, user)
 		return
 	}
 	// 验证码次数+1
-	global.BlackCache.Increment(key, 1)
+	// global.BlackCache.Increment(key, 1)
 	response.FailWithMessage("验证码错误", ctx)
 }
 

@@ -3,6 +3,7 @@ package system
 import (
 	"MEIS-server/global"
 	"context"
+	"fmt"
 	"time"
 
 	"go.uber.org/zap"
@@ -44,6 +45,7 @@ func (r RedisCaptchaStore) Get(id string, clear bool) string {
 
 //实现验证captcha的方法
 func (r RedisCaptchaStore) Verify(id, answer string, clear bool) bool {
-	v := RedisCaptchaStore{}.Get(id, clear)
+	v := r.Get(id, clear)
+	fmt.Println("key:" + id + ";value:" + v + ";answer:" + answer)
 	return v == answer
 }

@@ -53,4 +53,4 @@ email:
   account: 15817405529@163.com
   auth-code: ZSFHTUULZORPFCVJ
   ttl: 5   
-  expires-time: 5
+  expires-time: 5m

@@ -13,7 +13,7 @@ type SysUser struct {
 	Username string    `json:"username" gorm:"index;comment:用户名"`
 	Avatar   string    `json:"avatar" gorm:"comment:用户头像"`
 	NickName string    `json:"nickname" gorm:"index;comment:昵称"`
-	Password string    `json:"password" gorm:"-"`
+	Password string    `json:"password" gorm:"password;comment:密码"`
 	Email    string    `json:"email" gorm:"comment:邮箱"`
 	Enalble  int       `json:"enable" gorm:"comment:是否被冻结"`
 	Role     SysRole   `json:"role" gorm:"not null;comment:角色id;foreignKey:ID"`
