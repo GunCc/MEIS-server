@@ -2,6 +2,7 @@ package system
 
 import (
 	"MEIS-server/global"
+	commenReq "MEIS-server/model/commen/request"
 	"MEIS-server/model/system"
 	"MEIS-server/model/system/request"
 	"MEIS-server/utils"
@@ -61,6 +62,7 @@ func (u *UserController) Register(register request.Register) (err error) {
 	return err
 }
 
+// 登录
 func (u *UserController) Login(login request.Login) (innerUser *system.SysUser, err error) {
 	var sys_user system.SysUser
 
@@ -75,4 +77,19 @@ func (u *UserController) Login(login request.Login) (innerUser *system.SysUser, 
 	}
 
 	return &sys_user, err
+}
+
+// 获取用户列表
+func (u *UserController) GetUserList(info commenReq.ListInfo) (list interface{}, total int64, err error) {
+	limit := info.PageSize
+	offset := info.PageSize * (info.Page - 1)
+	db := global.MEIS_DB.Model(&system.SysUser{})
+	var userList []system.SysUser
+	err = db.Count(&total).Error
+	if err != nil {
+		return
+	}
+	err = db.Limit(limit).Offset(offset).Find(&userList).Error
+	return userList, total, err
+
 }

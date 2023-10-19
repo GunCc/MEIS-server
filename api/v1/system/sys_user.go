@@ -3,6 +3,7 @@ package system
 import (
 	"MEIS-server/controller/system"
 	"MEIS-server/global"
+	commenReq "MEIS-server/model/commen/request"
 	"MEIS-server/model/commen/response"
 	systemModel "MEIS-server/model/system"
 	"MEIS-server/model/system/request"
@@ -172,4 +173,29 @@ func (u *UserApi) TokenNext(c *gin.Context, user *systemModel.SysUser) {
 		}, "登录成功", c)
 	}
 
+}
+
+// 获取用户列表 --- 管理员权限
+func (u *UserApi) GetUserList(ctx *gin.Context) {
+	var info commenReq.ListInfo
+
+	err := ctx.ShouldBindJSON(&info)
+	if err != nil {
+		global.MEIS_LOGGER.Error("获取用户列表参数错误", zap.Error(err))
+		response.FailWithMessage("获取用户列表参数错误", ctx)
+		return
+	}
+
+	list, total, err := UserController.GetUserList(info)
+	if err != nil {
+		global.MEIS_LOGGER.Error("获取用户列表参数错误", zap.Error(err))
+		response.FailWithMessage("获取用户列表参数错误", ctx)
+		return
+	}
+	response.SuccessWithDetailed(response.ListRes{
+		List:     list,
+		Total:    total,
+		Page:     info.Page,
+		PageSize: info.PageSize,
+	}, "数据获取成功", ctx)
 }

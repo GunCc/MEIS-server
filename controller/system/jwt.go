@@ -33,6 +33,6 @@ func (j *JWTController) JoinInBlackList(jwtList system.JwtBlacklist) (err error)
 	if err != nil {
 		return
 	}
-	global.BlackCache.SetDefault(jwtList.Jwt, struct{}{})
+	// global.BlackCache.SetDefault(jwtList.Jwt, struct{}{})
 	return
 }

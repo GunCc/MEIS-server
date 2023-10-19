@@ -51,6 +51,6 @@ redis:
 
 email:
   account: 15817405529@163.com
-  auth-code: ZSFHTUULZORPFCVJ
+  auth-code: IRGRSOJLCOETCEIC
   ttl: 5   
   expires-time: 5m
