@@ -6,13 +6,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type SysResource struct {
+type SysResourceRouter struct {
 }
 
-func (s *SysResource) InitResource(Router *gin.RouterGroup) {
+func (s *SysResourceRouter) InitResourceRouter(Router *gin.RouterGroup) {
 	resourceRouter := Router.Group("resource")
 	resourceApi := api.ApiGroupApp.SystemApi.ResourceApi
 	{
 		resourceRouter.POST("/upload", resourceApi.UploadFile)
+		resourceRouter.POST("/list", resourceApi.GetFileList)
+		resourceRouter.POST("/remove", resourceApi.RemoveFile)
+		resourceRouter.POST("/update", resourceApi.UpdateFile)
 	}
 }
