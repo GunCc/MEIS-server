@@ -18,6 +18,7 @@ system:
   db-type: mysql
   use-multipoint: true
   use-redis: true
+  oos-type: local # 控制资源上传的地点
 
 mysql:
   path: "127.0.0.1"
@@ -54,3 +55,7 @@ email:
   auth-code: IRGRSOJLCOETCEIC
   ttl: 5   
   expires-time: 5m
+
+local:
+    path: uploads/file
+    store-path: uploads/file

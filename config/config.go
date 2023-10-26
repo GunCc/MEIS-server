@@ -10,4 +10,5 @@ type Config struct {
 	JWT      JWT      `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
 	Redis    Redis    `mapstructure:"redis" json:"redis" yaml:"redis"`
 	Email    Email    `mapstructure:"email" json:"email" yaml:"email"`
+	Local    Local    `mapstructure:"local" json:"local" yaml:"local"`
 }
