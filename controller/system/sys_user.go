@@ -70,8 +70,6 @@ func (u *UserController) Login(login request.Login) (innerUser *system.SysUser, 
 		return nil, errors.New("查无此人")
 	}
 
-	fmt.Println("login.Password", login.Password)
-	fmt.Println("sys_user.Password", sys_user.Password)
 	if b := utils.BcryptCheck(sys_user.Password, login.Password); !b {
 		return nil, errors.New("密码错误")
 	}

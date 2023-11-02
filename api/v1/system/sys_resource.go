@@ -98,3 +98,71 @@ func (i *ResourceApi) GetFileList(ctx *gin.Context) {
 		PageSize: info.PageSize,
 	}, "数据获取成功", ctx)
 }
+
+// 获取文件分类
+func (i *ResourceApi) GetFileTypeList(ctx *gin.Context) {
+	list, total, err := ResourceController.GetResourceTypeList()
+	if err != nil {
+		global.MEIS_LOGGER.Error("获取文件分类列表参数错误", zap.Error(err))
+		response.FailWithMessage("获取文件分类列表参数错误", ctx)
+		return
+	}
+	response.SuccessWithDetailed(response.ListRes{
+		List:  list,
+		Total: total,
+	}, "数据获取成功", ctx)
+}
+
+func (i *ResourceApi) AddFileType(ctx *gin.Context) {
+	var filetype system.SysResourceType
+
+	err := ctx.ShouldBindJSON(&filetype)
+	if err != nil {
+		global.MEIS_LOGGER.Error("获取文件分类参数错误", zap.Error(err))
+		response.FailWithMessage("获取文件分类参数错误", ctx)
+		return
+	}
+
+	if err := ResourceController.AddFileType(filetype); err != nil {
+		global.MEIS_LOGGER.Error("添加失败!", zap.Error(err))
+		response.FailWithMessage("添加失败", ctx)
+		return
+	}
+	response.SuccessWithMessage("添加成功", ctx)
+}
+
+func (i *ResourceApi) UpdateFileType(ctx *gin.Context) {
+	var filetype system.SysResourceType
+
+	err := ctx.ShouldBindJSON(&filetype)
+	if err != nil {
+		global.MEIS_LOGGER.Error("获取文件分类参数错误", zap.Error(err))
+		response.FailWithMessage("获取文件分类参数错误", ctx)
+		return
+	}
+
+	if err := ResourceController.UpdateFileType(filetype); err != nil {
+		global.MEIS_LOGGER.Error("编辑失败!", zap.Error(err))
+		response.FailWithMessage("编辑失败", ctx)
+		return
+	}
+	response.SuccessWithMessage("编辑成功", ctx)
+}
+
+func (i *ResourceApi) DeleteFileType(ctx *gin.Context) {
+	var reqId request.GetById
+
+	err := ctx.ShouldBindJSON(&reqId)
+	if err != nil {
+		global.MEIS_LOGGER.Error("获取文件分类参数错误", zap.Error(err))
+		response.FailWithMessage("获取文件分类参数错误", ctx)
+		return
+	}
+
+	if err := ResourceController.DeleteFileType(reqId.Uint()); err != nil {
+		global.MEIS_LOGGER.Error("编辑失败!", zap.Error(err))
+		response.FailWithMessage("编辑失败", ctx)
+		return
+	}
+	response.SuccessWithMessage("编辑成功", ctx)
+}

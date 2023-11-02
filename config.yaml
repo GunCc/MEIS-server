@@ -34,7 +34,7 @@ mysql:
 
 captcha:
   open: 0
-  timeout: 3600
+  timeout: 24
   width: 200
   height: 80
   key-long: 4

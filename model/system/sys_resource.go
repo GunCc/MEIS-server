@@ -9,3 +9,8 @@ type SysResource struct {
 	Tag  string `json:"tag" gorm:"comment:标签"`
 	Key  string `json:"key" gorm:"comment:编号"`
 }
+
+type SysResourceType struct {
+	global.MEIS_MODEL
+	Name string `json:"name" gorm:"comment:名称"`
+}

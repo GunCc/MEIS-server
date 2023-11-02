@@ -17,5 +17,10 @@ func (s *SysResourceRouter) InitResourceRouter(Router *gin.RouterGroup) {
 		resourceRouter.POST("/list", resourceApi.GetFileList)
 		resourceRouter.POST("/remove", resourceApi.RemoveFile)
 		resourceRouter.POST("/update", resourceApi.UpdateFile)
+
+		resourceRouter.POST("/getFileType", resourceApi.GetFileList)
+		resourceRouter.POST("/addFileType", resourceApi.AddFileType)
+		resourceRouter.POST("/updateFileType", resourceApi.UpdateFileType)
+		resourceRouter.POST("/removeFileType", resourceApi.DeleteFileType)
 	}
 }

@@ -2,13 +2,12 @@ package system
 
 import (
 	"MEIS-server/global"
-	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
 )
 
-var Store = base64Captcha.DefaultMemStore
+var Store = new(RedisCaptchaStore)
 
 // 获取验证码
 func (u *UserController) GetCaptcha(ctx *gin.Context) (id, b64s string, oc bool, err error) {
@@ -29,7 +28,6 @@ func (u *UserController) GetCaptcha(ctx *gin.Context) (id, b64s string, oc bool,
 	width := global.MEIS_CONFIG.Captcha.Width
 	height := global.MEIS_CONFIG.Captcha.Height
 	keylong := global.MEIS_CONFIG.Captcha.KeyLong
-	fmt.Println("keylong", height, width)
 
 	// 字符、公式、验证码配置
 	driver := base64Captcha.NewDriverDigit(height, width, keylong, 0.7, 80)

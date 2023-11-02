@@ -8,6 +8,8 @@ import (
 	"errors"
 	"mime/multipart"
 	"strings"
+
+	"gorm.io/gorm"
 )
 
 type ResourceController struct {
@@ -80,4 +82,35 @@ func (i *ResourceController) FindFile(id uint) (system.SysResource, error) {
 	var file system.SysResource
 	err := global.MEIS_DB.Where("id = ?", id).First(&file).Error
 	return file, err
+}
+
+// 获取文件分类
+func (i *ResourceController) GetResourceTypeList() (list interface{}, total int64, err error) {
+	db := global.MEIS_DB.Model(&system.SysResourceType{})
+	var resourceList []system.SysResourceType
+	err = db.Count(&total).Find(&resourceList).Error
+	return resourceList, total, err
+}
+
+// 添加文件分类
+func (i *ResourceController) AddFileType(fileType system.SysResourceType) (err error) {
+	if !errors.Is(global.MEIS_DB.Where("name = ?", fileType.Name).First(&system.SysResourceType{}).Error, gorm.ErrRecordNotFound) {
+		return errors.New("分类名重复")
+	}
+
+	return global.MEIS_DB.Create(&fileType).Error
+}
+
+// 编辑文件分类
+func (i *ResourceController) UpdateFileType(fileType system.SysResourceType) (err error) {
+	var fileTypeFromDb system.SysResourceType
+	return global.MEIS_DB.Where("id = ?", fileType.ID).First(&fileTypeFromDb).Update("name", fileType.Name).Error
+}
+
+// 删除文件分类
+func (i *ResourceController) DeleteFileType(fileTypeId uint) (err error) {
+	var fileTypeFromDb system.SysResourceType
+	err = global.MEIS_DB.Where("id = ?", fileTypeId).Unscoped().Delete(&fileTypeFromDb).Error
+
+	return err
 }
