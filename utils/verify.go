@@ -36,4 +36,10 @@ var (
 			NotEmpty(),
 		},
 	}
+
+	ResourceTypeVerify = Rules{
+		"Name": {
+			NotEmpty(),
+		},
+	}
 )

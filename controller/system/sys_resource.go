@@ -3,6 +3,8 @@ package system
 import (
 	"MEIS-server/global"
 	"MEIS-server/model/commen/request"
+	sysReq "MEIS-server/model/system/request"
+
 	"MEIS-server/model/system"
 	"MEIS-server/utils/upload"
 	"errors"
@@ -32,13 +34,14 @@ func (i *ResourceController) UploadResource(header *multipart.FileHeader, noSave
 			Tag:  s[len(s)-1],
 			Key:  key,
 		}
-		return f, i.Upload(f)
+		err = i.Upload(&f)
+		return f, err
 	}
 	return
 }
 
-func (i *ResourceController) Upload(file system.SysResource) error {
-	return global.MEIS_DB.Create(&file).Error
+func (i *ResourceController) Upload(file *system.SysResource) error {
+	return global.MEIS_DB.Create(file).Error
 }
 
 // 获取资源列表
@@ -93,12 +96,13 @@ func (i *ResourceController) GetResourceTypeList() (list interface{}, total int6
 }
 
 // 添加文件分类
-func (i *ResourceController) AddFileType(fileType system.SysResourceType) (err error) {
+func (i *ResourceController) AddFileType(fileType *system.SysResourceType) (err error) {
 	if !errors.Is(global.MEIS_DB.Where("name = ?", fileType.Name).First(&system.SysResourceType{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("分类名重复")
 	}
+	err = global.MEIS_DB.Create(fileType).Error
 
-	return global.MEIS_DB.Create(&fileType).Error
+	return err
 }
 
 // 编辑文件分类
@@ -112,5 +116,13 @@ func (i *ResourceController) DeleteFileType(fileTypeId uint) (err error) {
 	var fileTypeFromDb system.SysResourceType
 	err = global.MEIS_DB.Where("id = ?", fileTypeId).Unscoped().Delete(&fileTypeFromDb).Error
 
+	return err
+}
+
+// 文件绑定类型
+func (i *ResourceController) FileBindType(info sysReq.SysFileBindType) (err error) {
+	db := global.MEIS_DB.Model(system.SysResource{})
+
+	err = db.Where("id in ?", info.SysResourceId).Updates(system.SysResource{SysResourceTypeId: info.TypeId}).Error
 	return err
 }

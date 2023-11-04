@@ -20,6 +20,7 @@ func RegisterTables(db *gorm.DB) {
 		&system.JwtBlacklist{},
 		&system.SysRole{},
 		&system.SysUser{},
+		&system.SysResourceType{},
 		&system.SysResource{},
 	)
 	if err != nil {

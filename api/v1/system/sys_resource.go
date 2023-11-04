@@ -5,6 +5,8 @@ import (
 	"MEIS-server/model/commen/request"
 	"MEIS-server/model/commen/response"
 	"MEIS-server/model/system"
+	sysReq "MEIS-server/model/system/request"
+	"MEIS-server/utils"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -122,13 +124,19 @@ func (i *ResourceApi) AddFileType(ctx *gin.Context) {
 		response.FailWithMessage("获取文件分类参数错误", ctx)
 		return
 	}
+	err = utils.Verify(filetype, utils.ResourceTypeVerify)
+	if err != nil {
+		global.MEIS_LOGGER.Error("添加失败！", zap.Error(err))
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
 
-	if err := ResourceController.AddFileType(filetype); err != nil {
+	if err := ResourceController.AddFileType(&filetype); err != nil {
 		global.MEIS_LOGGER.Error("添加失败!", zap.Error(err))
 		response.FailWithMessage("添加失败", ctx)
 		return
 	}
-	response.SuccessWithMessage("添加成功", ctx)
+	response.SuccessWithDetailed(filetype, "添加成功", ctx)
 }
 
 func (i *ResourceApi) UpdateFileType(ctx *gin.Context) {
@@ -138,6 +146,12 @@ func (i *ResourceApi) UpdateFileType(ctx *gin.Context) {
 	if err != nil {
 		global.MEIS_LOGGER.Error("获取文件分类参数错误", zap.Error(err))
 		response.FailWithMessage("获取文件分类参数错误", ctx)
+		return
+	}
+	err = utils.Verify(filetype, utils.ResourceTypeVerify)
+	if err != nil {
+		global.MEIS_LOGGER.Error("编辑失败！", zap.Error(err))
+		response.FailWithMessage(err.Error(), ctx)
 		return
 	}
 
@@ -160,9 +174,29 @@ func (i *ResourceApi) DeleteFileType(ctx *gin.Context) {
 	}
 
 	if err := ResourceController.DeleteFileType(reqId.Uint()); err != nil {
-		global.MEIS_LOGGER.Error("编辑失败!", zap.Error(err))
-		response.FailWithMessage("编辑失败", ctx)
+		global.MEIS_LOGGER.Error("删除失败!", zap.Error(err))
+		response.FailWithMessage("删除失败", ctx)
 		return
 	}
-	response.SuccessWithMessage("编辑成功", ctx)
+	response.SuccessWithMessage("删除成功", ctx)
+}
+
+// 文件绑定类型
+func (i *ResourceApi) FileBindType(ctx *gin.Context) {
+	var req sysReq.SysFileBindType
+
+	err := ctx.ShouldBindJSON(&req)
+	if err != nil {
+		global.MEIS_LOGGER.Error("获取文件资源报错：", zap.Error(err))
+		response.FailWithMessage("获取文件资源报错：", ctx)
+		return
+	}
+
+	if err := ResourceController.FileBindType(req); err != nil {
+		global.MEIS_LOGGER.Error("绑定失败!", zap.Error(err))
+		response.FailWithMessage("绑定失败", ctx)
+		return
+	}
+	response.SuccessWithMessage("绑定成功", ctx)
+
 }
