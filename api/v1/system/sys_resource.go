@@ -78,7 +78,7 @@ func (i *ResourceApi) UpdateFile(ctx *gin.Context) {
 
 // 获取文件资源列表
 func (i *ResourceApi) GetFileList(ctx *gin.Context) {
-	var info request.ListInfo
+	var info sysReq.SysFileListInfo
 
 	err := ctx.ShouldBindJSON(&info)
 	if err != nil {

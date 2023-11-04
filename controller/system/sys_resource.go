@@ -2,7 +2,6 @@ package system
 
 import (
 	"MEIS-server/global"
-	"MEIS-server/model/commen/request"
 	sysReq "MEIS-server/model/system/request"
 
 	"MEIS-server/model/system"
@@ -45,16 +44,27 @@ func (i *ResourceController) Upload(file *system.SysResource) error {
 }
 
 // 获取资源列表
-func (i *ResourceController) GetResourceList(info request.ListInfo) (list interface{}, total int64, err error) {
+func (i *ResourceController) GetResourceList(info sysReq.SysFileListInfo) (list interface{}, total int64, err error) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
+	keyword := info.Keyword
+
 	db := global.MEIS_DB.Model(&system.SysResource{})
 	var resourceList []system.SysResource
+
+	db = db.Limit(limit).Offset(offset)
+	type_id := info.TypeId
+
+	if !errors.Is(global.MEIS_DB.Where("id = ? ", type_id).First(&system.SysResourceType{}).Error, gorm.ErrRecordNotFound) {
+		db = db.Where("sys_resource_type_id = ?", type_id)
+	}
+	db = db.Where("name LIKE ?", "%"+keyword+"%")
 	err = db.Count(&total).Error
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Find(&resourceList).Error
+	err = db.Find(&resourceList).Error
+
 	return resourceList, total, err
 }
 
