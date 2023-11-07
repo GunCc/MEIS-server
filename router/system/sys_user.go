@@ -14,7 +14,9 @@ func (b *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
 	userApi := api.ApiGroupApp.SystemApi.UserApi
 	{
 		userRouter.POST("/getList", userApi.GetUserList)
-		// userRouter.POST("/remove", userApi.Login)
+		userRouter.POST("/remove", userApi.RemoveUser)
+		userRouter.POST("/update", userApi.UpdateUser)
+		userRouter.POST("/registerAdmin", userApi.RegisterUser)
 
 	}
 

@@ -5,7 +5,7 @@ type Register struct {
 	Password string `json:"password"`
 	Email    string `json:"email"`
 	RoleId   int    `json:"role_id"`
-	Enalble  int    `json:"enable"`
+	Enable   int    `json:"enable"`
 	Code     string `json:"code"`
 }
 

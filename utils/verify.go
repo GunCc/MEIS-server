@@ -36,8 +36,13 @@ var (
 			NotEmpty(),
 		},
 	}
-
 	ResourceTypeVerify = Rules{
+		"Name": {
+			NotEmpty(),
+		},
+	}
+
+	RoleVerify = Rules{
 		"Name": {
 			NotEmpty(),
 		},

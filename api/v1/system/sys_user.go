@@ -38,7 +38,7 @@ func (U *UserApi) Register(ctx *gin.Context) {
 		return
 	}
 
-	err = BaseController.Register(register)
+	err = BaseController.Register(register, true)
 	if err != nil {
 		global.MEIS_LOGGER.Error("注册失败", zap.Error(err))
 		response.FailWithMessage(err.Error(), ctx)
@@ -46,7 +46,6 @@ func (U *UserApi) Register(ctx *gin.Context) {
 	}
 	global.MEIS_LOGGER.Info("注册成功")
 	response.SuccessWithMessage("注册成功", ctx)
-	return
 }
 
 // 登录
@@ -92,7 +91,7 @@ func (u *UserApi) Login(ctx *gin.Context) {
 			return
 		}
 
-		// if user.Enalble != 1 {
+		// if user.Enable != 1 {
 		// 	global.MEIS_LOGGER.Error("登陆失败! 用户被禁止登录!")
 		// 	// 验证码次数+1
 		// 	// global.BlackCache.Increment(key, 1)
@@ -176,7 +175,7 @@ func (u *UserApi) TokenNext(c *gin.Context, user *systemModel.SysUser) {
 
 }
 
-// 获取用户列表 --- 管理员权限
+// 获取用户列表
 func (u *UserApi) GetUserList(ctx *gin.Context) {
 	var info commenReq.ListInfo
 
@@ -199,4 +198,72 @@ func (u *UserApi) GetUserList(ctx *gin.Context) {
 		Page:     info.Page,
 		PageSize: info.PageSize,
 	}, "数据获取成功", ctx)
+}
+
+// 删除某个用户
+func (u *UserApi) RemoveUser(ctx *gin.Context) {
+	var info systemModel.SysUser
+	err := ctx.ShouldBindJSON(&info)
+	if err != nil {
+		global.MEIS_LOGGER.Error("获取用户参数错误", zap.Error(err))
+		response.FailWithMessage("获取用户参数错误", ctx)
+		return
+	}
+
+	err = UserController.RemoveUser(info)
+	if err != nil {
+		global.MEIS_LOGGER.Error("获取用户参数错误", zap.Error(err))
+		response.FailWithMessage("获取用户参数错误", ctx)
+		return
+	}
+	response.SuccessWithMessage("删除成功", ctx)
+}
+
+// 修改某个用户
+func (u *UserApi) UpdateUser(ctx *gin.Context) {
+	var info systemModel.SysUser
+
+	err := ctx.ShouldBindJSON(&info)
+	if err != nil {
+		global.MEIS_LOGGER.Error("获取用户参数错误", zap.Error(err))
+		response.FailWithMessage("获取用户参数错误", ctx)
+		return
+	}
+
+	err = UserController.UpdateUser(info)
+	if err != nil {
+		global.MEIS_LOGGER.Error("获取用户参数错误", zap.Error(err))
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
+	response.SuccessWithMessage("修改成功", ctx)
+
+}
+
+// 后台注册用户
+func (u *UserApi) RegisterUser(ctx *gin.Context) {
+	var register request.Register
+
+	err := ctx.ShouldBindJSON(&register)
+	if err != nil {
+		global.MEIS_LOGGER.Error("注册信息有误", zap.Error(err))
+		response.Fail(ctx)
+		return
+	}
+
+	err = utils.Verify(register, utils.RegisterVerify)
+	if err != nil {
+		global.MEIS_LOGGER.Error("注册校验报错", zap.Error(err))
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
+
+	err = BaseController.Register(register, false)
+	if err != nil {
+		global.MEIS_LOGGER.Error("注册失败", zap.Error(err))
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
+	global.MEIS_LOGGER.Info("注册成功")
+	response.SuccessWithMessage("注册成功", ctx)
 }

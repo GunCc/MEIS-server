@@ -5,4 +5,5 @@ type SystemControllerGroup struct {
 	JWTController
 	MailerController
 	ResourceController
+	RoleController
 }

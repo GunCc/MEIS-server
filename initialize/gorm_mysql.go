@@ -4,6 +4,7 @@ import (
 	"MEIS-server/global"
 	"MEIS-server/initialize/internal"
 
+	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -21,6 +22,7 @@ func GormMysql() *gorm.DB {
 	}
 
 	if db, err := gorm.Open(mysql.New(mysqlConfig), internal.Gorm.GormConfig()); err != nil {
+		global.MEIS_LOGGER.Error("数据库初始化失败！", zap.Error(err))
 		return nil
 	} else {
 		sqlDB, _ := db.DB()
