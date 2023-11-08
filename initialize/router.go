@@ -36,11 +36,13 @@ func Routers() *gin.Engine {
 	}
 
 	PrivateGroup := Router.Group("")
+	PrivateGroup.Use(middleware.JWTAuth())
 	{
 		SystemRouter.InitUserRouter(PrivateGroup)
 		SystemRouter.InitResourceRouter(PrivateGroup)
 		SystemRouter.InitRoleRouter(PrivateGroup)
 		SystemRouter.InitMenuRouter(PrivateGroup)
+		SystemRouter.InitOperationRecordRouter(PrivateGroup)
 	}
 
 	return Router

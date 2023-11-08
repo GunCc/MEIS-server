@@ -50,3 +50,43 @@ func (j *JWT) CreateToken(claims request.CustomClaims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	return token.SignedString(j.SigningKey)
 }
+
+// 解析 token
+func (j *JWT) ParseToken(tokenString string) (*request.CustomClaims, error) {
+	// 根据声明的数据解析jwt
+	token, err := jwt.ParseWithClaims(tokenString, &request.CustomClaims{}, func(t *jwt.Token) (interface{}, error) {
+		return j.SigningKey, nil
+	})
+	// token解析错误处理
+	if err != nil {
+		if ve, ok := err.(*jwt.ValidationError); ok {
+			if ve.Errors&jwt.ValidationErrorMalformed != 0 {
+				return nil, TokenMalformed
+			} else if ve.Errors&jwt.ValidationErrorExpired != 0 {
+				// Token is expired
+				return nil, TokenExpired
+			} else if ve.Errors&jwt.ValidationErrorNotValidYet != 0 {
+				return nil, TokenNotValidYet
+			} else {
+				return nil, TokenInvalid
+			}
+		}
+	}
+	if token != nil {
+		if claims, ok := token.Claims.(*request.CustomClaims); ok && token.Valid {
+			return claims, nil
+		}
+		return nil, TokenInvalid
+
+	} else {
+		return nil, TokenInvalid
+	}
+}
+
+// CreateTokenByOldToken 旧token 换新token 使用归并回源避免并发问题
+// func (j *JWT) CreateTokenByOldToken(oldToken string, claims request.CustomClaims) (string, error) {
+// 	v, err, _ := global.GVA_Concurrency_Control.Do("JWT:"+oldToken, func() (interface{}, error) {
+// 		return j.CreateToken(claims)
+// 	})
+// 	return v.(string), err
+// }

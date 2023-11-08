@@ -14,8 +14,10 @@ type Response struct {
 
 // 状态码
 var (
-	SUCCESS = 200
-	FAIL    = 400
+	SUCCESS      = 200
+	FAIL         = 400
+	Unauthorized = 401 // 未登录
+	Forbidden    = 403 // 无权限
 )
 
 func Result(code int, data interface{}, message string, c *gin.Context) {

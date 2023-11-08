@@ -6,4 +6,5 @@ type SystemRouterGroup struct {
 	SysResourceRouter
 	RoleRouter
 	MenuRouter
+	OperationRecordRouter
 }

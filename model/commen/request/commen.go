@@ -7,3 +7,7 @@ type GetById struct {
 func (r *GetById) Uint() uint {
 	return uint(r.ID)
 }
+
+type IdsReq struct {
+	Ids []int `json:"ids" form:"ids"`
+}

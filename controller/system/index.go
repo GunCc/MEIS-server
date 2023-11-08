@@ -7,4 +7,5 @@ type SystemControllerGroup struct {
 	ResourceController
 	RoleController
 	MenuController
+	SysOperationRecordController
 }
