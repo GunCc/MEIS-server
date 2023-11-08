@@ -5,4 +5,5 @@ type SystemRouterGroup struct {
 	UserRouter
 	SysResourceRouter
 	RoleRouter
+	MenuRouter
 }

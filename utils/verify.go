@@ -47,4 +47,19 @@ var (
 			NotEmpty(),
 		},
 	}
+
+	MenuVerify = Rules{
+		"Name": {
+			NotEmpty(),
+		},
+		"Path": {
+			NotEmpty(),
+		},
+		"Component": {
+			NotEmpty(),
+		},
+		"Sort": {
+			NotEmpty(),
+		},
+	}
 )

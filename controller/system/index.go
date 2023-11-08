@@ -6,4 +6,5 @@ type SystemControllerGroup struct {
 	MailerController
 	ResourceController
 	RoleController
+	MenuController
 }

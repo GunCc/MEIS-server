@@ -7,12 +7,13 @@ type SystemApi struct {
 	UserApi
 	ResourceApi
 	SysRoleApi
+	SysMenuApi
 }
 
 var (
-	BaseController = controller.ControllerGroupApp.SystemControllerGroup.UserController
-	RoleController = controller.ControllerGroupApp.SystemControllerGroup.RoleController
-
+	BaseController     = controller.ControllerGroupApp.SystemControllerGroup.UserController
+	RoleController     = controller.ControllerGroupApp.SystemControllerGroup.RoleController
+	MenuController     = controller.ControllerGroupApp.SystemControllerGroup.MenuController
 	UserController     = controller.ControllerGroupApp.SystemControllerGroup.UserController
 	MailerController   = controller.ControllerGroupApp.SystemControllerGroup.MailerController
 	JWTController      = controller.ControllerGroupApp.SystemControllerGroup.JWTController

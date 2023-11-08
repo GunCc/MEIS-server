@@ -14,6 +14,9 @@ func Routers() *gin.Engine {
 
 	Router.Use(middleware.Cors())
 
+	// 格式不正确的处理中间件
+	Router.Use(middleware.ErrorJsonNW())
+
 	// 提供图片访问地址
 	Router.StaticFS(global.MEIS_CONFIG.Local.StorePath, http.Dir(global.MEIS_CONFIG.Local.StorePath)) // 为用户头像和文件提供静态地址
 
@@ -37,6 +40,7 @@ func Routers() *gin.Engine {
 		SystemRouter.InitUserRouter(PrivateGroup)
 		SystemRouter.InitResourceRouter(PrivateGroup)
 		SystemRouter.InitRoleRouter(PrivateGroup)
+		SystemRouter.InitMenuRouter(PrivateGroup)
 	}
 
 	return Router
