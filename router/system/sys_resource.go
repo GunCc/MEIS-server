@@ -2,6 +2,7 @@ package system
 
 import (
 	"MEIS-server/api"
+	"MEIS-server/middleware"
 
 	"github.com/gin-gonic/gin"
 )
@@ -10,7 +11,7 @@ type SysResourceRouter struct {
 }
 
 func (s *SysResourceRouter) InitResourceRouter(Router *gin.RouterGroup) {
-	resourceRouter := Router.Group("resource")
+	resourceRouter := Router.Group("resource").Use(middleware.OperationRecord())
 	resourceApi := api.ApiGroupApp.SystemApi.ResourceApi
 	{
 		resourceRouter.POST("/upload", resourceApi.UploadFile)
