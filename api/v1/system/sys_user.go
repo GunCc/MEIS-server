@@ -38,7 +38,7 @@ func (U *UserApi) Register(ctx *gin.Context) {
 		return
 	}
 
-	err = BaseController.Register(register, true)
+	_, err = BaseController.Register(register)
 	if err != nil {
 		global.MEIS_LOGGER.Error("注册失败", zap.Error(err))
 		response.FailWithMessage(err.Error(), ctx)
@@ -232,7 +232,13 @@ func (u *UserApi) UpdateUser(ctx *gin.Context) {
 
 	err = UserController.UpdateUser(info)
 	if err != nil {
-		global.MEIS_LOGGER.Error("获取用户参数错误", zap.Error(err))
+		global.MEIS_LOGGER.Error("修改用户错误", zap.Error(err))
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
+	err = UserController.SetUserRoles(info.ID, info.RoleIds)
+	if err != nil {
+		global.MEIS_LOGGER.Error("修改用户绑定角色时错误", zap.Error(err))
 		response.FailWithMessage(err.Error(), ctx)
 		return
 	}
@@ -258,12 +264,54 @@ func (u *UserApi) RegisterUser(ctx *gin.Context) {
 		return
 	}
 
-	err = BaseController.Register(register, false)
+	newUser, err := BaseController.Register(register)
 	if err != nil {
 		global.MEIS_LOGGER.Error("注册失败", zap.Error(err))
 		response.FailWithMessage(err.Error(), ctx)
 		return
 	}
-	global.MEIS_LOGGER.Info("注册成功")
+
+	err = UserController.SetUserRoles(newUser.ID, register.RoleIds)
+	if err != nil {
+		global.MEIS_LOGGER.Error("修改用户绑定角色时错误", zap.Error(err))
+		response.FailWithMessage(err.Error(), ctx)
+		return
+	}
+
 	response.SuccessWithMessage("注册成功", ctx)
+}
+
+// 重置密码
+func (b *UserApi) ResetPassword(c *gin.Context) {
+	var user systemModel.SysUser
+	err := c.ShouldBindJSON(&user)
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	err = UserController.ResetPassword(user.ID)
+	if err != nil {
+		global.MEIS_LOGGER.Error("重置失败!", zap.Error(err))
+		response.FailWithMessage("重置失败"+err.Error(), c)
+		return
+	}
+	response.SuccessWithMessage("重置成功", c)
+}
+
+// 绑定用户和角色的关系
+func (u *UserApi) SetUserRoles(c *gin.Context) {
+	var userRoles request.SetUserRoles
+	err := c.ShouldBindJSON(&userRoles)
+	if err != nil {
+		response.FailWithMessage(err.Error(), c)
+		return
+	}
+	err = UserController.SetUserRoles(userRoles.ID, userRoles.RoleIds)
+	if err != nil {
+		global.MEIS_LOGGER.Error("修改失败!", zap.Error(err))
+		response.FailWithMessage("修改失败", c)
+		return
+	}
+	response.SuccessWithMessage("修改成功", c)
+
 }

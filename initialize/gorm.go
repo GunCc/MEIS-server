@@ -24,6 +24,7 @@ func RegisterTables(db *gorm.DB) {
 		&system.SysResource{},
 		&system.SysMenu{},
 		&system.SysOperationRecord{},
+		&system.SysUserRole{},
 	)
 	if err != nil {
 		global.MEIS_LOGGER.Error("表初始化失败", zap.Error(err))

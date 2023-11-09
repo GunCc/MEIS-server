@@ -8,6 +8,7 @@ import (
 	"MEIS-server/utils"
 	"context"
 	"errors"
+	"fmt"
 	"time"
 
 	uuid "github.com/satori/go.uuid"
@@ -18,29 +19,27 @@ type UserController struct {
 }
 
 // 注册
-func (u *UserController) Register(register request.Register, haveCode bool) (err error) {
+func (u *UserController) Register(register request.Register) (user *system.SysUser, err error) {
 
 	if !errors.Is(global.MEIS_DB.Where("nick_name = ?", register.NickName).First(&system.SysUser{}).Error, gorm.ErrRecordNotFound) {
-		return errors.New("昵称重复")
-	}
-
-	var sys_role system.SysRole
-	if errors.Is(global.MEIS_DB.Where("id = ?", register.RoleId).First(&sys_role).Error, gorm.ErrRecordNotFound); err != nil {
-		return errors.New("角色不存在")
+		return nil, errors.New("昵称重复")
 	}
 
 	if register.Email != "" && !errors.Is(global.MEIS_DB.Where("email = ?", register.Email).First(&system.SysUser{}).Error, gorm.ErrRecordNotFound) {
-		return errors.New("邮箱已经被注册")
+		return nil, errors.New("邮箱已经被注册")
 	}
 
-	if haveCode {
+	fmt.Println("register.GetIsAdmin()", register.GetIsAdmin())
+
+	// 如果是后台注册不需要验证码
+	if !register.GetIsAdmin() {
 		s, err := global.MEIS_REDIS.Get(context.Background(), register.Email).Result()
 		if err != nil {
-			return err
+			return nil, err
 		}
 
 		if !utils.BcryptCheck(s, register.Code) {
-			return errors.New("验证码不匹配")
+			return nil, errors.New("验证码不匹配")
 		}
 
 	}
@@ -50,8 +49,6 @@ func (u *UserController) Register(register request.Register, haveCode bool) (err
 		Email:    register.Email,
 	}
 
-	sys_user.Role = sys_role
-
 	// 附加uuid
 	sys_user.UUID = uuid.NewV4()
 
@@ -60,7 +57,7 @@ func (u *UserController) Register(register request.Register, haveCode bool) (err
 
 	err = global.MEIS_DB.Create(&sys_user).Error
 
-	return err
+	return &sys_user, err
 }
 
 // 登录
@@ -88,7 +85,7 @@ func (u *UserController) GetUserList(info commenReq.ListInfo) (list interface{},
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Find(&userList).Error
+	err = db.Limit(limit).Offset(offset).Preload("Roles").Find(&userList).Error
 	return userList, total, err
 }
 
@@ -118,4 +115,35 @@ func (i *UserController) UpdateUser(info system.SysUser) (err error) {
 		"enable":     info.Enable,
 	}).Error
 
+}
+
+// 重置用户密码
+func (u *UserController) ResetPassword(id uint) (err error) {
+
+	return global.MEIS_DB.Model(&system.SysUser{}).Where("id = ?", id).Update("password", utils.BcryptHash("123456")).Error
+}
+
+// 修改用户和角色关系
+
+func (u *UserController) SetUserRoles(id uint, roleIds []uint) (err error) {
+	return global.MEIS_DB.Transaction(func(tx *gorm.DB) error {
+		err := tx.Delete(&[]system.SysUserRole{}, "sys_user_id = ?", id).Error
+		if err != nil {
+			return err
+		}
+
+		var userRoles []system.SysUserRole
+		for _, v := range roleIds {
+			userRoles = append(userRoles, system.SysUserRole{
+				SysUserId: id,
+				SysRoleId: v,
+			})
+		}
+		err = tx.Create(userRoles).Error
+		if err != nil {
+			return err
+		}
+
+		return nil
+	})
 }
