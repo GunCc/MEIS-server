@@ -5,7 +5,6 @@ import (
 	"MEIS-server/model/system"
 	"errors"
 	"fmt"
-	"strconv"
 
 	"gorm.io/gorm"
 )
@@ -50,7 +49,7 @@ func (u *MenuController) RemoveMenu(menu system.SysMenu) (err error) {
 func (u *MenuController) GetMenuList() (list interface{}, err error) {
 	var menuList []system.SysMenu
 	treeMap, err := u.GetAllMenuMap()
-	menuList = treeMap["0"]
+	menuList = treeMap[0]
 	for i := 0; i < len(menuList); i++ {
 		err = u.getBaseChildrenList(&menuList[i], treeMap)
 	}
@@ -58,9 +57,9 @@ func (u *MenuController) GetMenuList() (list interface{}, err error) {
 }
 
 // 获取整棵树
-func (m *MenuController) GetAllMenuMap() (treeMap map[string][]system.SysMenu, err error) {
+func (m *MenuController) GetAllMenuMap() (treeMap map[uint][]system.SysMenu, err error) {
 	var allMenu []system.SysMenu
-	treeMap = make(map[string][]system.SysMenu)
+	treeMap = make(map[uint][]system.SysMenu)
 	err = global.MEIS_DB.Order("sort").Find(&allMenu).Error
 	for _, v := range allMenu {
 		treeMap[v.ParentId] = append(treeMap[v.ParentId], v)
@@ -70,8 +69,8 @@ func (m *MenuController) GetAllMenuMap() (treeMap map[string][]system.SysMenu, e
 }
 
 // 获取子节点
-func (m *MenuController) getBaseChildrenList(menu *system.SysMenu, treeMap map[string][]system.SysMenu) (err error) {
-	menu.Children = treeMap[strconv.Itoa(int(menu.ID))]
+func (m *MenuController) getBaseChildrenList(menu *system.SysMenu, treeMap map[uint][]system.SysMenu) (err error) {
+	menu.Children = treeMap[menu.ID]
 	for i := 0; i < len(menu.Children); i++ {
 		err = m.getBaseChildrenList(&menu.Children[i], treeMap)
 	}
