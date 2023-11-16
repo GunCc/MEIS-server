@@ -4,7 +4,9 @@ import (
 	"MEIS-server/global"
 	"MEIS-server/model/commen/request"
 	"MEIS-server/model/system"
+	systemReq "MEIS-server/model/system/request"
 	"errors"
+	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -56,6 +58,24 @@ func (u *RoleController) GetRoleList(info request.ListInfo) (list interface{}, t
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Find(&roleList).Error
+	err = db.Limit(limit).Preload("SysMenu").Offset(offset).Find(&roleList).Error
 	return roleList, total, err
+}
+
+// 绑定路由和菜单
+func (u *RoleController) SetRoleMenu(rm systemReq.RoleMenus) (err error) {
+	var role system.SysRole
+
+	// 找到并且打开角色菜单
+	global.MEIS_DB.Preload("SysMenu").First(&role, "id = ?", rm.RoleId)
+	var menus []system.SysMenu
+	for _, v := range rm.MenuIds {
+		var menu system.SysMenu
+		menu.ID = v
+		menus = append(menus, menu)
+	}
+	fmt.Println("menus", role)
+	fmt.Println("rm", rm)
+	err = global.MEIS_DB.Model(&role).Association("SysMenu").Replace(&menus)
+	return err
 }

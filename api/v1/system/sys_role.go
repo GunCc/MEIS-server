@@ -5,6 +5,7 @@ import (
 	"MEIS-server/model/commen/request"
 	"MEIS-server/model/commen/response"
 	"MEIS-server/model/system"
+	systemReq "MEIS-server/model/system/request"
 	"MEIS-server/utils"
 
 	"github.com/gin-gonic/gin"
@@ -82,6 +83,7 @@ func (u *SysRoleApi) UpdateRole(ctx *gin.Context) {
 		response.FailWithMessage("角色编辑错误", ctx)
 		return
 	}
+
 	response.SuccessWithMessage("删除成功", ctx)
 }
 
@@ -102,4 +104,24 @@ func (u *SysRoleApi) RemoveRole(ctx *gin.Context) {
 		return
 	}
 	response.SuccessWithMessage("删除成功", ctx)
+}
+
+// 绑定用户和菜单
+func (u *SysRoleApi) SetRoleMenus(ctx *gin.Context) {
+	var rm systemReq.RoleMenus
+	err := ctx.ShouldBindJSON(&rm)
+
+	if err != nil {
+		global.MEIS_LOGGER.Error("绑定用户和菜单请求参数错误", zap.Error(err))
+		response.FailWithMessage("绑定用户和菜单请求参数错误", ctx)
+		return
+	}
+
+	err = RoleController.SetRoleMenu(rm)
+	if err != nil {
+		global.MEIS_LOGGER.Error("绑定失败", zap.Error(err))
+		response.FailWithMessage("绑定失败", ctx)
+		return
+	}
+	response.SuccessWithMessage("绑定成功", ctx)
 }

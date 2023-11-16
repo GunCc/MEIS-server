@@ -14,3 +14,12 @@ type SysMenu struct {
 	ParentId  uint      `json:"p_id" gorm:"comment:父级路由id;default:0"`
 	Children  []SysMenu `json:"children" gorm:"-"`
 }
+
+type SysMenuRole struct {
+	RoleId uint `json:"role_id" gorm:"comment:角色ID;column:sys_role_id"`
+	MenuId uint `json:"menu_id" gorm:"comment:菜单ID;column:sys_menu_id"`
+}
+
+func (s SysMenuRole) TableName() string {
+	return "sys_menu_role"
+}
