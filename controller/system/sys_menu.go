@@ -40,9 +40,23 @@ func (u *MenuController) UpdateMenu(menu system.SysMenu) (err error) {
 }
 
 // 删除
-func (u *MenuController) RemoveMenu(menu system.SysMenu) (err error) {
-	err = global.MEIS_DB.Model(system.SysMenu{}).Where("id = ?", menu.ID).Delete(&menu).Error
-	return err
+func (u *MenuController) RemoveMenu(menu system.SysMenu) error {
+
+	return global.MEIS_DB.Transaction(func(tx *gorm.DB) error {
+		txErr := global.MEIS_DB.First(&system.SysMenuRole{}, "sys_menu_id = ?", menu.ID).Error
+		if !errors.Is(txErr, gorm.ErrRecordNotFound) {
+			return errors.New("此菜单正在被使用无法删除")
+		}
+
+		txErr = tx.Delete(&[]system.SysMenuRole{}, "sys_role_id = ?", menu.ID).Error
+		if txErr != nil {
+			return txErr
+		}
+
+		txErr = global.MEIS_DB.Model(system.SysMenu{}).Where("id = ?", menu.ID).Delete(&menu).Error
+		return txErr
+	})
+
 }
 
 // 获取菜单列表

@@ -100,7 +100,7 @@ func (u *SysRoleApi) RemoveRole(ctx *gin.Context) {
 	err = RoleController.RemoveRole(info)
 	if err != nil {
 		global.MEIS_LOGGER.Error("角色删除错误", zap.Error(err))
-		response.FailWithMessage("角色删除错误", ctx)
+		response.FailWithMessage(err.Error(), ctx)
 		return
 	}
 	response.SuccessWithMessage("删除成功", ctx)

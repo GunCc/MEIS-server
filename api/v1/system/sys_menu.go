@@ -92,7 +92,7 @@ func (u *SysMenuApi) RemoveMenu(ctx *gin.Context) {
 	err = MenuController.RemoveMenu(info)
 	if err != nil {
 		global.MEIS_LOGGER.Error("菜单删除错误", zap.Error(err))
-		response.FailWithMessage("菜单删除错误", ctx)
+		response.FailWithMessage(err.Error(), ctx)
 		return
 	}
 	response.SuccessWithMessage("删除成功", ctx)

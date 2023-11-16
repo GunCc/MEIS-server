@@ -43,9 +43,22 @@ func (u *RoleController) UpdateRole(role system.SysRole) (err error) {
 }
 
 // 删除
-func (u *RoleController) RemoveRole(role system.SysRole) (err error) {
-	err = global.MEIS_DB.Model(system.SysRole{}).Where("id = ?", role.ID).Delete(&role).Error
-	return err
+func (u *RoleController) RemoveRole(role system.SysRole) error {
+	return global.MEIS_DB.Transaction(func(tx *gorm.DB) error {
+		txErr := global.MEIS_DB.First(&system.SysUserRole{}, "sys_role_id = ?", role.ID).Error
+		if !errors.Is(txErr, gorm.ErrRecordNotFound) {
+			return errors.New("此角色正在被使用无法删除")
+		}
+
+		txErr = tx.Delete(&[]system.SysMenuRole{}, "sys_role_id = ?", role.ID).Error
+		if txErr != nil {
+			return txErr
+		}
+
+		txErr = global.MEIS_DB.Model(system.SysRole{}).Where("id = ?", role.ID).Delete(&role).Error
+		return txErr
+	})
+
 }
 
 // 获取用户列表
