@@ -78,7 +78,6 @@ func (u *UserApi) Login(ctx *gin.Context) {
 	// }
 
 	// var oc bool = open == 0 || open < BaseController.InterfaceToInt(v)
-	fmt.Println("能到这里嘛", login)
 	if system.Store.Verify(login.CaptchaId, login.Captcha, true) {
 		fmt.Println("通过验证码校验")
 		user, err := BaseController.Login(login)
@@ -128,7 +127,6 @@ func (u *UserApi) TokenNext(c *gin.Context, user *systemModel.SysUser) {
 	// 单点登录
 	if !global.MEIS_CONFIG.System.UseMultipoint {
 		response.SuccessWithDetailed(systemRes.UserLoginAfter{
-			User:      user,
 			Token:     token,
 			ExpiresAt: claims.StandardClaims.ExpiresAt * 1000,
 		}, "登录成功", c)
@@ -198,6 +196,19 @@ func (u *UserApi) GetUserList(ctx *gin.Context) {
 		Page:     info.Page,
 		PageSize: info.PageSize,
 	}, "数据获取成功", ctx)
+}
+
+// 获取用户信息
+func (u *UserApi) GetUserInfo(ctx *gin.Context) {
+	uuid := utils.GetUserUuid(ctx)
+
+	user, err := UserController.GetUserInfo(uuid)
+	if err != nil {
+		global.MEIS_LOGGER.Error("获取用户列表参数错误", zap.Error(err))
+		response.FailWithMessage("获取用户列表参数错误", ctx)
+		return
+	}
+	response.SuccessWithDetailed(user, "数据获取成功", ctx)
 }
 
 // 删除某个用户

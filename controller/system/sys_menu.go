@@ -3,8 +3,8 @@ package system
 import (
 	"MEIS-server/global"
 	"MEIS-server/model/system"
+	"MEIS-server/utils"
 	"errors"
-	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -78,7 +78,6 @@ func (m *MenuController) GetAllMenuMap() (treeMap map[uint][]system.SysMenu, err
 	for _, v := range allMenu {
 		treeMap[v.ParentId] = append(treeMap[v.ParentId], v)
 	}
-	fmt.Println("treeMap", treeMap)
 	return treeMap, err
 }
 
@@ -90,3 +89,52 @@ func (m *MenuController) getBaseChildrenList(menu *system.SysMenu, treeMap map[u
 	}
 	return err
 }
+
+// 获取用户角色默认路由
+func (m *MenuController) GetRoleDefaultRouter(user *system.SysUser) (treeMap map[uint][]system.SysMenu, err error) {
+	var baseMenu []system.SysMenu
+	var menuIds []uint
+	var roleIds []uint
+
+	for _, v := range user.Roles {
+		roleIds = append(roleIds, v.ID)
+	}
+
+	err = global.MEIS_DB.Model(system.SysMenuRole{}).Where("sys_role_id in (?)", roleIds).Pluck("sys_menu_id", &menuIds).Error
+	if err != nil {
+		return nil, err
+	}
+
+	menuIds = utils.RemoveRep(menuIds)
+
+	// 获取对应的菜单
+	err = global.MEIS_DB.Model(system.SysMenu{}).Where("id in (?)", menuIds).Find(&baseMenu).Error
+
+	treeMap = make(map[uint][]system.SysMenu)
+
+	for _, v := range baseMenu {
+		treeMap[v.ParentId] = append(treeMap[v.ParentId], v)
+	}
+	menuTreeMap := make(map[uint][]system.SysMenu)
+	for id, value := range treeMap {
+		var pmenu system.SysMenu
+		global.MEIS_DB.Where(&system.SysMenu{}).Find(&pmenu, "id = ?", id)
+		pmenu.Children = value
+		menuTreeMap[pmenu.ParentId] = append(menuTreeMap[pmenu.ParentId], pmenu)
+	}
+
+	return menuTreeMap, err
+}
+
+// 获取父级菜单
+// func (m *MenuController) GetParentMenu(menu system.SysMenu, menus []system.SysMenu) {
+// 	var pmenu system.SysMenu
+// 	if menu.ParentId != 0 {
+// 		// 获取父节点
+// 		global.MEIS_DB.Where(&system.SysMenu{}).Find(&pmenu, "id = ?", menu.ParentId)
+// 		pmenu.Children = append(pmenu.Children, menu)
+// 		m.GetParentMenu(pmenu, menus)
+// 	} else {
+// 		menus = append(menus, menu)
+// 	}
+// }

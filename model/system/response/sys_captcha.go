@@ -1,4 +1,4 @@
-package system
+package response
 
 type SysCaptcha struct {
 	CaptchaId     string `json:"captcha_id"`

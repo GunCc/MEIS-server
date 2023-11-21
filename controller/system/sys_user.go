@@ -5,6 +5,7 @@ import (
 	commenReq "MEIS-server/model/commen/request"
 	"MEIS-server/model/system"
 	"MEIS-server/model/system/request"
+	"MEIS-server/model/system/response"
 	"MEIS-server/utils"
 	"context"
 	"errors"
@@ -17,6 +18,8 @@ import (
 
 type UserController struct {
 }
+
+var MenuControllerApp = new(MenuController)
 
 // 注册
 func (u *UserController) Register(register request.Register) (user *system.SysUser, err error) {
@@ -123,8 +126,27 @@ func (u *UserController) ResetPassword(id uint) (err error) {
 	return global.MEIS_DB.Model(&system.SysUser{}).Where("id = ?", id).Update("password", utils.BcryptHash("123456")).Error
 }
 
-// 修改用户和角色关系
+// 获取用户信息
+func (u *UserController) GetUserInfo(uuid uuid.UUID) (user response.UserInfo, err error) {
+	var baseUser system.SysUser
+	err = global.MEIS_DB.Preload("Roles").First(&baseUser, "uuid = ?", uuid).Error
+	if err != nil {
+		return user, err
+	}
+	user.User = baseUser
+	menusTree, err := MenuControllerApp.GetRoleDefaultRouter(&baseUser)
+	if err != nil {
+		return user, err
+	}
+	menus := menusTree[0]
+	if err != nil {
+		return user, err
+	}
+	user.Menus = menus
+	return user, err
+}
 
+// 修改用户和角色关系
 func (u *UserController) SetUserRoles(id uint, roleIds []uint) (err error) {
 	return global.MEIS_DB.Transaction(func(tx *gorm.DB) error {
 		err := tx.Delete(&[]system.SysUserRole{}, "sys_user_id = ?", id).Error
