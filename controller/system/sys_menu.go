@@ -31,7 +31,10 @@ func (u *MenuController) UpdateMenu(menu system.SysMenu) (err error) {
 	upDateMap["name"] = menu.Name
 	upDateMap["hidden"] = menu.Hidden
 	upDateMap["component"] = menu.Component
-	upDateMap["sort"] = menu.Sort
+	upDateMap["sort"] = menu.Meta.Sort
+	upDateMap["title"] = menu.Meta.Title
+	upDateMap["keep_alive"] = menu.Meta.KeepAlive
+	upDateMap["icon"] = menu.Meta.Icon
 	if !errors.Is(global.MEIS_DB.Where("name = ? and id != ?", menu.Name, menu.ID).First(&system.SysMenu{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("菜单名重复")
 	}

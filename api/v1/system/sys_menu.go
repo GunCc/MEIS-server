@@ -64,6 +64,7 @@ func (u *SysMenuApi) GetMenuList(ctx *gin.Context) {
 func (u *SysMenuApi) UpdateMenu(ctx *gin.Context) {
 	var info system.SysMenu
 	err := ctx.ShouldBindJSON(&info)
+	fmt.Println("info", info)
 	if err != nil {
 		global.MEIS_LOGGER.Error("菜单编辑错误", zap.Error(err))
 		response.FailWithMessage("菜单编辑错误", ctx)
