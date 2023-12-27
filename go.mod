@@ -34,6 +34,7 @@ require (
 	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect
 	github.com/golang/freetype v0.0.0-20170609003504-e2365dfdc4a0 // indirect
+	github.com/gookit/color v1.5.4 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/jinzhu/now v1.1.5 // indirect
@@ -55,6 +56,7 @@ require (
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/twitchyliquid64/golang-asm v0.15.1 // indirect
 	github.com/ugorji/go/codec v1.2.11 // indirect
+	github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/arch v0.5.0 // indirect
 	golang.org/x/image v0.13.0 // indirect

@@ -11,3 +11,7 @@ type SysRole struct {
 	SysMenu    []SysMenu `json:"menus" gorm:"many2many:sys_menu_role"`
 	SysMenuIds []uint    `json:"menus_ids" gorm:"-"`
 }
+
+func (SysRole) TableName() string {
+	return "sys_roles"
+}

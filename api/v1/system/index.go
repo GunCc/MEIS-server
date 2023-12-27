@@ -8,6 +8,7 @@ type SystemApi struct {
 	ResourceApi
 	SysRoleApi
 	SysMenuApi
+	SysApiInitDB
 	SysOperationRecordApi
 }
 
@@ -20,4 +21,5 @@ var (
 	JWTController                = controller.ControllerGroupApp.SystemControllerGroup.JWTController
 	ResourceController           = controller.ControllerGroupApp.SystemControllerGroup.ResourceController
 	SysOperationRecordController = controller.ControllerGroupApp.SystemControllerGroup.SysOperationRecordController
+	InitDBController             = controller.ControllerGroupApp.SystemControllerGroup.InitDBController
 )

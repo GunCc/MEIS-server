@@ -19,3 +19,7 @@ type SysUser struct {
 	Roles    []SysRole `json:"roles" gorm:"many2many:sys_user_role"`
 	RoleIds  []uint    `json:"role_ids" gorm:"-"`
 }
+
+func (SysUser) TableName() string {
+	return "sys_users"
+}
