@@ -6,11 +6,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type InitDBRouter struct {
+type SysInitDBRouter struct {
 }
 
 // 初始化数据库
-func (s *InitDBRouter) InitDBRouter(Router *gin.RouterGroup) {
+func (s *SysInitDBRouter) InitDBRouter(Router *gin.RouterGroup) {
 	initRouter := Router.Group("init")
 	dbApi := api.ApiGroupApp.SystemApi.SysApiInitDB
 	{

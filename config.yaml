@@ -1,61 +1,53 @@
-server:
-  addr: 8888
-
 autocode:
-  root: ""
-
-zap:
-  director: log
-  format: console
-  stacktrace-key: stacktrace
-  encode-level: LowercaseColorLevelEncoder
-  prefix: MEIS_server
-  level: info
-  log-in-console: true
-  show-line: true
-
-system:
-  db-type: mysql
-  use-multipoint: true
-  use-redis: true
-  oos-type: local # 控制资源上传的地点
-
-mysql:
-  path: "127.0.0.1"
-  port: "3306"
-  config: "charset=utf8mb4&parseTime=True&loc=Local"
-  db-name: "meis"
-  username: "root"
-  password: "123456"
-  log-zap: false
-  log-mode: ""
-  max-idle-conns: 10
-  max-open-conns: 100
-
+    root: F:\后端项目
 captcha:
-  open: 0
-  timeout: 24
-  width: 200
-  height: 80
-  key-long: 4
-
-jwt:
-  signing-key: meis
-  expires-time: 7d
-  buffer-time: 1d
-  issuer: meis
-
-redis:
-  db: 0
-  addr: 127.0.0.1:6379
-  password: ""
-
+    open: 0
+    timeout: 24
+    width: 200
+    height: 80
+    key-long: 4
 email:
-  account: 15817405529@163.com
-  auth-code: IRGRSOJLCOETCEIC
-  ttl: 5   
-  expires-time: 5m
-
+    account: 15817405529@163.com
+    auth-code: IRGRSOJLCOETCEIC
+    ttl: 5
+    expires-time: 5m
+jwt:
+    signing-key: 80431ffd-90ea-4916-a86e-ecd0899d24dc
+    expires-time: 7d
+    buffer-time: 1d
+    issuer: meis
 local:
     path: uploads/file
     store-path: uploads/file
+mysql:
+    path: 127.0.0.1
+    port: "3306"
+    config: charset=utf8mb4
+    db-name: meis
+    username: root
+    password: "123456"
+    log-zap: false
+    log-mode: error
+    max-idle-conns: 10
+    max-open-conns: 100
+redis:
+    db: 0
+    password: ""
+    addr: 127.0.0.1:6379
+server:
+    addr: 8888
+system:
+    db-type: mysql
+    use-multipoint: true
+    use-redis: true
+    oos-type: local
+zap:
+    level: info
+    director: log
+    format: console
+    stacktrace-key: stacktrace
+    encode-level: LowercaseColorLevelEncoder
+    prefix: MEIS_server
+    max-age: 0
+    log-in-console: true
+    show-line: true

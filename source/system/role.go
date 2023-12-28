@@ -49,9 +49,9 @@ func (i *initRole) InitializeData(ctx context.Context) (context.Context, error) 
 		return ctx, system.ErrMissingDBContext
 	}
 	entities := []sysModel.SysRole{
-		{Name: "superadmin", Comment: "最高权限"},
-		{Name: "test", Comment: "测试人员"},
-		{Name: "customer", Comment: "游客"},
+		{Name: "superadmin", Comment: "最高权限", RoleId: 777},
+		{Name: "test", Comment: "测试人员", RoleId: 666},
+		{Name: "customer", Comment: "游客", RoleId: 555},
 	}
 
 	if err := db.Create(&entities).Error; err != nil {
@@ -67,7 +67,7 @@ func (i *initRole) DataInserted(ctx context.Context) bool {
 	if !ok {
 		return false
 	}
-	if errors.Is(db.Where("authority_id = ?", "8881").
+	if errors.Is(db.Where("role_id = ?", "777").
 		First(&sysModel.SysRole{}).Error, gorm.ErrRecordNotFound) { // 判断是否存在数据
 		return false
 	}

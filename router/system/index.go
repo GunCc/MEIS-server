@@ -7,4 +7,5 @@ type SystemRouterGroup struct {
 	RoleRouter
 	MenuRouter
 	OperationRecordRouter
+	SysInitDBRouter
 }

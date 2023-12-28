@@ -27,18 +27,21 @@ func (m *MysqlInitHandler) EnsureDB(ctx context.Context, conf *request.InitDB) (
 		return ctx, ErrDBTypeMismatch
 	}
 
-	c := conf.ToMysqlConfig()
+	dsn := conf.MysqlEmptyDsn()
 
+	c := conf.ToMysqlConfig()
 	next = context.WithValue(ctx, "config", c)
 
-	dsn := conf.MysqlEmptyDsn()
 	// 创建数据库
 	createSql := fmt.Sprintf("CREATE DATABASE IF NOT EXISTS `%s` DEFAULT CHARACTER SET utf8mb4 DEFAULT COLLATE utf8mb4_general_ci;", c.DbName)
+
 	if err = createDatabase(dsn, "mysql", createSql); err != nil {
 		return nil, err
 	}
 
 	var db *gorm.DB
+
+	fmt.Println("c.Dsn()", c.Dsn(), dsn)
 	if db, err = gorm.Open(mysql.New(mysql.Config{
 		DSN:                       c.Dsn(), // DSN data source name
 		DefaultStringSize:         191,     // string 类型字段的默认长度

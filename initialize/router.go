@@ -32,7 +32,7 @@ func Routers() *gin.Engine {
 	SystemRouter := router.RouterGroupApp.System
 	{
 		SystemRouter.InitBaseRouter(PublicGroup)
-
+		SystemRouter.InitDBRouter(PublicGroup)
 	}
 
 	PrivateGroup := Router.Group("")
@@ -43,6 +43,7 @@ func Routers() *gin.Engine {
 		SystemRouter.InitRoleRouter(PrivateGroup)
 		SystemRouter.InitMenuRouter(PrivateGroup)
 		SystemRouter.InitOperationRecordRouter(PrivateGroup)
+
 	}
 
 	return Router

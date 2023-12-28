@@ -124,15 +124,16 @@ func (i *InitDBController) InitDB(conf request.InitDB) (err error) {
 	global.MEIS_DB = db
 
 	if err = initHandler.InitTables(ctx, initializers); err != nil {
-		return err
+		return errors.New("InitTables Error：" + err.Error())
 	}
 
+	fmt.Println("initializers", initializers)
 	if err = initHandler.InitData(ctx, initializers); err != nil {
-		return err
+		return errors.New("InitData Error：" + err.Error())
 	}
 
 	if err = initHandler.WriteConfig(ctx); err != nil {
-		return err
+		return errors.New("WriteConfig Error：" + err.Error())
 	}
 
 	// 完成初始化后清空

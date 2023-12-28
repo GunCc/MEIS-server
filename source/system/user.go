@@ -5,6 +5,7 @@ import (
 	sysModel "MEIS-server/model/system"
 	"MEIS-server/utils"
 	"context"
+	"fmt"
 
 	"github.com/pkg/errors"
 	uuid "github.com/satori/go.uuid"
@@ -61,13 +62,24 @@ func (i *initUser) InitializeData(ctx context.Context) (next context.Context, er
 			Password: adminPassword,
 			NickName: "Mr.Mango",
 			Email:    "333333333@qq.com",
+			Roles: []sysModel.SysRole{
+				{
+					RoleId: 777,
+				},
+			},
 		},
 		{
 			UUID:     uuid.NewV4(),
 			Username: "zzk",
 			Password: password,
 			NickName: "康大少",
-			Email:    "333333333@qq.com"},
+			Email:    "333333333@qq.com",
+			Roles: []sysModel.SysRole{
+				{
+					RoleId: 666,
+				},
+			},
+		},
 	}
 	if err = db.Create(&entities).Error; err != nil {
 		return ctx, errors.Wrap(err, sysModel.SysUser{}.TableName()+"表数据初始化失败!")
@@ -76,15 +88,17 @@ func (i *initUser) InitializeData(ctx context.Context) (next context.Context, er
 	next = context.WithValue(ctx, i.InitializerName(), entities)
 	// 获取
 	rolesEntities, ok := ctx.Value(initRole{}.InitializerName()).([]sysModel.SysRole)
+	fmt.Println("rolesEntities", rolesEntities)
+
 	if !ok {
 		return next, errors.Wrap(system.ErrMissingDependentContext, "创建 [用户-权限] 关联失败, 未找到权限表初始化数据")
 	}
-	if err = db.Model(&entities[0]).Association("Roles").Replace(rolesEntities); err != nil {
-		return next, err
-	}
-	if err = db.Model(&entities[1]).Association("Roles").Replace(rolesEntities[:1]); err != nil {
-		return next, err
-	}
+	// if err = db.Model(&entities[0]).Association("Roles").Replace(rolesEntities); err != nil {
+	// 	return next, err
+	// }
+	// if err = db.Model(&entities[1]).Association("Roles").Replace(rolesEntities[:1]); err != nil {
+	// 	return next, err
+	// }
 	return next, err
 }
 

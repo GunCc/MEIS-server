@@ -25,12 +25,14 @@ func (i *InitDB) ToMysqlConfig() config.Mysql {
 		MaxIdleConns: 10,
 		MaxOpenConns: 100,
 		LogMode:      "error",
-		Config:       "charset=utf8mb4&parseTime=True&loc=Local",
+		Config:       "charset=utf8mb4",
 	}
 }
 
 // 空数据库 建库链接
 func (i *InitDB) MysqlEmptyDsn() string {
+	fmt.Println("i.Host", i.Host, i.Host == "")
+	fmt.Println("i.Port", i.Port, i.Port == "")
 	if i.Host == "" {
 		i.Host = "127.0.0.1"
 	}

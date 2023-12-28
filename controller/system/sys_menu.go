@@ -100,7 +100,7 @@ func (m *MenuController) GetRoleDefaultRouter(user *system.SysUser) (treeMap map
 	var roleIds []uint
 
 	for _, v := range user.Roles {
-		roleIds = append(roleIds, v.ID)
+		roleIds = append(roleIds, v.RoleId)
 	}
 
 	err = global.MEIS_DB.Model(system.SysMenuRole{}).Where("sys_role_id in (?)", roleIds).Pluck("sys_menu_id", &menuIds).Error

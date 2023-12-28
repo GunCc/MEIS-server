@@ -29,10 +29,10 @@ func (u *RoleController) CreateRole(role system.SysRole) (err error) {
 // 修改
 func (u *RoleController) UpdateRole(role system.SysRole) (err error) {
 
-	if !errors.Is(global.MEIS_DB.Where("name = ? and id != ?", role.Name, role.ID).First(&system.SysRole{}).Error, gorm.ErrRecordNotFound) {
+	if !errors.Is(global.MEIS_DB.Where("name = ? and id != ?", role.Name, role.RoleId).First(&system.SysRole{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("昵称重复")
 	}
-	err = global.MEIS_DB.Model(system.SysRole{}).Where("id = ?", role.ID).Updates(map[string]interface{}{
+	err = global.MEIS_DB.Model(system.SysRole{}).Where("id = ?", role.RoleId).Updates(map[string]interface{}{
 		"name":       role.Name,
 		"updated_at": time.Now(),
 		"enable":     role.Enable,
@@ -45,17 +45,17 @@ func (u *RoleController) UpdateRole(role system.SysRole) (err error) {
 // 删除
 func (u *RoleController) RemoveRole(role system.SysRole) error {
 	return global.MEIS_DB.Transaction(func(tx *gorm.DB) error {
-		txErr := global.MEIS_DB.First(&system.SysUserRole{}, "sys_role_id = ?", role.ID).Error
+		txErr := global.MEIS_DB.First(&system.SysUserRole{}, "sys_role_id = ?", role.RoleId).Error
 		if !errors.Is(txErr, gorm.ErrRecordNotFound) {
 			return errors.New("此角色正在被使用无法删除")
 		}
 
-		txErr = tx.Delete(&[]system.SysMenuRole{}, "sys_role_id = ?", role.ID).Error
+		txErr = tx.Delete(&[]system.SysMenuRole{}, "sys_role_id = ?", role.RoleId).Error
 		if txErr != nil {
 			return txErr
 		}
 
-		txErr = global.MEIS_DB.Model(system.SysRole{}).Where("id = ?", role.ID).Delete(&role).Error
+		txErr = global.MEIS_DB.Model(system.SysRole{}).Where("id = ?", role.RoleId).Delete(&role).Error
 		return txErr
 	})
 
