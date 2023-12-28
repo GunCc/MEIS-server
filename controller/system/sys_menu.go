@@ -51,7 +51,7 @@ func (u *MenuController) RemoveMenu(menu system.SysMenu) error {
 			return errors.New("此菜单正在被使用无法删除")
 		}
 
-		txErr = tx.Delete(&[]system.SysMenuRole{}, "sys_role_id = ?", menu.ID).Error
+		txErr = tx.Delete(&[]system.SysMenuRole{}, "sys_role_role_id = ?", menu.ID).Error
 		if txErr != nil {
 			return txErr
 		}
@@ -103,7 +103,7 @@ func (m *MenuController) GetRoleDefaultRouter(user *system.SysUser) (treeMap map
 		roleIds = append(roleIds, v.RoleId)
 	}
 
-	err = global.MEIS_DB.Model(system.SysMenuRole{}).Where("sys_role_id in (?)", roleIds).Pluck("sys_menu_id", &menuIds).Error
+	err = global.MEIS_DB.Model(system.SysMenuRole{}).Where("sys_role_role_id in (?)", roleIds).Pluck("sys_menu_id", &menuIds).Error
 	if err != nil {
 		return nil, err
 	}
@@ -118,15 +118,14 @@ func (m *MenuController) GetRoleDefaultRouter(user *system.SysUser) (treeMap map
 	for _, v := range baseMenu {
 		treeMap[v.ParentId] = append(treeMap[v.ParentId], v)
 	}
-	menuTreeMap := make(map[uint][]system.SysMenu)
-	for id, value := range treeMap {
-		var pmenu system.SysMenu
-		global.MEIS_DB.Where(&system.SysMenu{}).Find(&pmenu, "id = ?", id)
-		pmenu.Children = value
-		menuTreeMap[pmenu.ParentId] = append(menuTreeMap[pmenu.ParentId], pmenu)
+
+	menuTreeMap := treeMap[0]
+	for i := 0; i < len(menuTreeMap); i++ {
+		err = m.getBaseChildrenList(&menuTreeMap[i], treeMap)
 	}
 
-	return menuTreeMap, err
+	return treeMap, err
+
 }
 
 // 获取父级菜单

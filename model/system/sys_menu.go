@@ -21,7 +21,7 @@ func (s SysMenu) TableName() string {
 }
 
 type SysMenuRole struct {
-	RoleId uint `json:"role_id" gorm:"comment:角色ID;column:sys_role_id"`
+	RoleId uint `json:"role_id" gorm:"comment:角色ID;column:sys_role_role_id"`
 	MenuId uint `json:"menu_id" gorm:"comment:菜单ID;column:sys_menu_id"`
 }
 

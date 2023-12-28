@@ -23,6 +23,6 @@ func (b *UserRouter) InitUserRouter(Router *gin.RouterGroup) {
 	}
 	{
 		userRouterWithoutRecord.POST("/getList", userApi.GetUserList)     // 用户列表
-		userRouterWithoutRecord.POST("/getUserInfo", userApi.GetUserInfo) // 用户列表
+		userRouterWithoutRecord.POST("/getUserInfo", userApi.GetUserInfo) // 获取用户信息
 	}
 }

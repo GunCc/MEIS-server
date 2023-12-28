@@ -6,7 +6,6 @@ import (
 	"MEIS-server/model/system"
 	systemReq "MEIS-server/model/system/request"
 	"errors"
-	"fmt"
 	"time"
 
 	"gorm.io/gorm"
@@ -45,12 +44,12 @@ func (u *RoleController) UpdateRole(role system.SysRole) (err error) {
 // 删除
 func (u *RoleController) RemoveRole(role system.SysRole) error {
 	return global.MEIS_DB.Transaction(func(tx *gorm.DB) error {
-		txErr := global.MEIS_DB.First(&system.SysUserRole{}, "sys_role_id = ?", role.RoleId).Error
+		txErr := global.MEIS_DB.First(&system.SysUserRole{}, "sys_role_role_id = ?", role.RoleId).Error
 		if !errors.Is(txErr, gorm.ErrRecordNotFound) {
 			return errors.New("此角色正在被使用无法删除")
 		}
 
-		txErr = tx.Delete(&[]system.SysMenuRole{}, "sys_role_id = ?", role.RoleId).Error
+		txErr = tx.Delete(&[]system.SysMenuRole{}, "sys_role_role_id = ?", role.RoleId).Error
 		if txErr != nil {
 			return txErr
 		}
@@ -87,8 +86,6 @@ func (u *RoleController) SetRoleMenu(rm systemReq.RoleMenus) (err error) {
 		menu.ID = v
 		menus = append(menus, menu)
 	}
-	fmt.Println("menus", role)
-	fmt.Println("rm", rm)
 	err = global.MEIS_DB.Model(&role).Association("SysMenu").Replace(&menus)
 	return err
 }
