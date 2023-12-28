@@ -25,7 +25,7 @@ func (i *InitDB) ToMysqlConfig() config.Mysql {
 		MaxIdleConns: 10,
 		MaxOpenConns: 100,
 		LogMode:      "error",
-		Config:       "charset=utf8mb4",
+		Config:       "charset=utf8mb4&parseTime=true",
 	}
 }
 

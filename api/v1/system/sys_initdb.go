@@ -15,8 +15,7 @@ type SysApiInitDB struct {
 // 初始化数据库
 func (*SysApiInitDB) InitDB(c *gin.Context) {
 	if global.MEIS_DB != nil {
-		global.MEIS_LOGGER.Error("已存在数据库配置!")
-		response.FailWithMessage("已存在数据库配置", c)
+		response.SuccessWithMessage("已存在数据库配置", c)
 		return
 	}
 

@@ -79,7 +79,6 @@ func (u *UserApi) Login(ctx *gin.Context) {
 
 	// var oc bool = open == 0 || open < BaseController.InterfaceToInt(v)
 	if system.Store.Verify(login.CaptchaId, login.Captcha, true) {
-		fmt.Println("通过验证码校验")
 		user, err := BaseController.Login(login)
 		if err != nil {
 

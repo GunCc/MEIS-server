@@ -12,7 +12,7 @@ email:
     ttl: 5
     expires-time: 5m
 jwt:
-    signing-key: 80431ffd-90ea-4916-a86e-ecd0899d24dc
+    signing-key: 60580501-e8da-44bb-94cc-9497c158fc2e
     expires-time: 7d
     buffer-time: 1d
     issuer: meis
@@ -22,7 +22,7 @@ local:
 mysql:
     path: 127.0.0.1
     port: "3306"
-    config: charset=utf8mb4
+    config: charset=utf8mb4&parseTime=true
     db-name: meis
     username: root
     password: "123456"

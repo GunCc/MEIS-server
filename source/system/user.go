@@ -93,12 +93,6 @@ func (i *initUser) InitializeData(ctx context.Context) (next context.Context, er
 	if !ok {
 		return next, errors.Wrap(system.ErrMissingDependentContext, "创建 [用户-权限] 关联失败, 未找到权限表初始化数据")
 	}
-	// if err = db.Model(&entities[0]).Association("Roles").Replace(rolesEntities); err != nil {
-	// 	return next, err
-	// }
-	// if err = db.Model(&entities[1]).Association("Roles").Replace(rolesEntities[:1]); err != nil {
-	// 	return next, err
-	// }
 	return next, err
 }
 

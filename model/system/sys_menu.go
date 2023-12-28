@@ -11,8 +11,13 @@ type SysMenu struct {
 	Component string    `json:"component" gorm:"comment:映射组件"`
 	Hidden    bool      `json:"hidden" gorm:"comment:是否隐藏;default:true"`
 	ParentId  uint      `json:"p_id" gorm:"comment:父级路由id;default:0"`
+	Redirect  string    `json:"redirect" gorm:"comment:重定向"`
 	Children  []SysMenu `json:"children" gorm:"-"`
 	Meta      `json:"meta" gorm:"embedded;comment:附加属性"`
+}
+
+func (s SysMenu) TableName() string {
+	return "sys_menu"
 }
 
 type SysMenuRole struct {
