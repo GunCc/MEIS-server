@@ -13,7 +13,7 @@ import (
 type SysOperationRecordApi struct {
 }
 
-// 获取角色列表
+// 获取日志列表
 func (u *SysOperationRecordApi) GetOperationRecordList(ctx *gin.Context) {
 	var info request.ListInfo
 
@@ -43,15 +43,15 @@ func (u *SysOperationRecordApi) RemoveOperationRecord(ctx *gin.Context) {
 	var info system.SysOperationRecord
 	err := ctx.ShouldBindJSON(&info)
 	if err != nil {
-		global.MEIS_LOGGER.Error("角色删除错误", zap.Error(err))
-		response.FailWithMessage("角色删除错误", ctx)
+		global.MEIS_LOGGER.Error("日志删除错误", zap.Error(err))
+		response.FailWithMessage("日志删除错误", ctx)
 		return
 	}
 
 	err = SysOperationRecordController.DeleteSysOperationRecord(info)
 	if err != nil {
-		global.MEIS_LOGGER.Error("角色删除错误", zap.Error(err))
-		response.FailWithMessage("角色删除错误", ctx)
+		global.MEIS_LOGGER.Error("日志删除错误", zap.Error(err))
+		response.FailWithMessage("日志删除错误", ctx)
 		return
 	}
 	response.SuccessWithMessage("删除成功", ctx)
@@ -63,15 +63,15 @@ func (u *SysOperationRecordApi) RemoveOperationRecordByIds(ctx *gin.Context) {
 
 	err := ctx.ShouldBindJSON(&IDS)
 	if err != nil {
-		global.MEIS_LOGGER.Error("角色删除错误", zap.Error(err))
-		response.FailWithMessage("角色删除错误", ctx)
+		global.MEIS_LOGGER.Error("日志删除错误", zap.Error(err))
+		response.FailWithMessage("日志删除错误", ctx)
 		return
 	}
 
 	err = SysOperationRecordController.DeleteSysOperationRecordByIds(IDS)
 	if err != nil {
-		global.MEIS_LOGGER.Error("角色删除错误", zap.Error(err))
-		response.FailWithMessage("角色删除错误", ctx)
+		global.MEIS_LOGGER.Error("日志删除错误", zap.Error(err))
+		response.FailWithMessage("日志删除错误", ctx)
 		return
 	}
 	response.SuccessWithMessage("删除成功", ctx)

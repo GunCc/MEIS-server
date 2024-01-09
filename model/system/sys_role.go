@@ -3,9 +3,9 @@ package system
 import "time"
 
 type SysRole struct {
-	CreatedAt  time.Time  // 创建时间
-	UpdatedAt  time.Time  // 更新时间
-	DeletedAt  *time.Time `sql:"index"`
+	CreatedAt  time.Time  `json:"created_at"` // 创建时间
+	UpdatedAt  time.Time  `json:"updated_at"` // 更新时间
+	DeletedAt  *time.Time `json:"deleted_at" sql:"index"`
 	RoleId     uint       `json:"role_id" gorm:"auto_increment null;unique;primary_key;comment:角色ID;size:90"` // 角色ID
 	Name       string     `gorm:"comment:角色名" json:"name"`
 	Comment    string     `gorm:"comment:备注" json:"comment"`

@@ -29,6 +29,7 @@ type MailerController struct {
 // 发送验证码
 func (mail *MailerController) SendEmail(emailTo request.SysReqEmailCode) (res string, err error) {
 
+	
 	if emailTo.ToMail != "" && !errors.Is(global.MEIS_DB.Where("email = ?", emailTo.ToMail).First(&system.SysUser{}).Error, gorm.ErrRecordNotFound) {
 		return "发送失败", errors.New("邮箱已经被注册")
 	}

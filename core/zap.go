@@ -13,7 +13,7 @@ import (
 
 func Zap() (logger *zap.Logger) {
 	if b, _ := utils.PathExists(global.MEIS_CONFIG.Zap.Director); !b {
-		fmt.Println("创建文件%v", global.MEIS_CONFIG.Zap.Director)
+		fmt.Println("zap所创建文件：%v", global.MEIS_CONFIG.Zap.Director)
 		os.Mkdir(global.MEIS_CONFIG.Zap.Director, os.ModePerm)
 	}
 	cores := internal.Zap.GetZapCores()

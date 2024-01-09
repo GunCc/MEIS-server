@@ -50,14 +50,14 @@ func (i initMenu) InitializeData(ctx context.Context) (next context.Context, err
 
 	entities := []SysMenu{
 		{ParentId: 0, Name: "Dashboard", Path: "/dashboard", Component: "Layout", Redirect: "/dashboard/analysis", Meta: Meta{Title: "面板", Icon: "mianban"}},
-		{ParentId: 1, Name: "Analysis", Path: "/dashboard/analysis", Component: "/views/dashboard/analysis/index.vue", Meta: Meta{Title: "分析表", Icon: "mianban"}},
+		{ParentId: 1, Name: "Analysis", Path: "/dashboard/analysis", Component: "dashboard/analysis/index.vue", Meta: Meta{Title: "分析表", Icon: "mianban"}},
 		{ParentId: 0, Name: "MaterialLibrary", Path: "/materialLibrary", Component: "Layout", Redirect: "/materialLibrary/manager", Meta: Meta{Title: "素材管理", Icon: "mianban", Sort: "1"}},
-		{ParentId: 3, Name: "MaterialLibraryManager", Path: "/materialLibrary/manager", Component: "/views/materialLibrary/manager/index.vue", Meta: Meta{Title: "图片管理", Icon: "mianban"}},
+		{ParentId: 3, Name: "MaterialLibraryManager", Path: "/materialLibrary/manager", Component: "materialLibrary/manager/index.vue", Meta: Meta{Title: "图片管理", Icon: "mianban"}},
 		{ParentId: 0, Name: "System", Path: "/system", Component: "Layout", Redirect: "/system/user", Meta: Meta{Title: "系统", Icon: "xitong"}},
-		{ParentId: 5, Name: "SystemUser", Path: "/system/user", Component: "/views/system/user/index.vue", Meta: Meta{Title: "用户管理", Icon: "mianban"}},
-		{ParentId: 5, Name: "SystemRole", Path: "/system/role", Component: "/views/system/role/index.vue", Meta: Meta{Title: "角色管理", Icon: "mianban"}},
-		{ParentId: 5, Name: "SystemMenu", Path: "/system/menu", Component: "/views/system/menu/index.vue", Meta: Meta{Title: "菜单管理", Icon: "mianban"}},
-		{ParentId: 5, Name: "SystemLogger", Path: "/system/logger", Component: "/views/system/logger/index.vue", Meta: Meta{Title: "日志管理", Icon: "mianban"}},
+		{ParentId: 5, Name: "SystemUser", Path: "/system/user", Component: "system/user/index.vue", Meta: Meta{Title: "用户管理", Icon: "mianban"}},
+		{ParentId: 5, Name: "SystemRole", Path: "/system/role", Component: "system/role/index.vue", Meta: Meta{Title: "角色管理", Icon: "mianban"}},
+		{ParentId: 5, Name: "SystemMenu", Path: "/system/menu", Component: "system/menu/index.vue", Meta: Meta{Title: "菜单管理", Icon: "mianban"}},
+		{ParentId: 5, Name: "SystemLogger", Path: "/system/logger", Component: "system/logger/index.vue", Meta: Meta{Title: "日志管理", Icon: "mianban"}},
 	}
 
 	if err = db.Create(&entities).Error; err != nil {
