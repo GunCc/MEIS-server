@@ -19,13 +19,6 @@ func (U *SysMenuApi) CreateMenu(ctx *gin.Context) {
 	var menu system.SysMenu
 	err := ctx.ShouldBindJSON(&menu)
 
-	fmt.Println("menu", menu)
-	if err != nil {
-		global.MEIS_LOGGER.Error("创建菜单信息有误", zap.Error(err))
-		response.Fail(ctx)
-		return
-	}
-
 	err = utils.Verify(menu, utils.RoleVerify)
 	if err != nil {
 		global.MEIS_LOGGER.Error("创建菜单报错", zap.Error(err))
@@ -77,7 +70,7 @@ func (u *SysMenuApi) UpdateMenu(ctx *gin.Context) {
 		response.FailWithMessage("菜单编辑错误", ctx)
 		return
 	}
-	response.SuccessWithMessage("删除成功", ctx)
+	response.SuccessWithMessage("编辑成功", ctx)
 }
 
 // 删除

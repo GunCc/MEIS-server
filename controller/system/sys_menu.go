@@ -5,6 +5,7 @@ import (
 	"MEIS-server/model/system"
 	"MEIS-server/utils"
 	"errors"
+	"fmt"
 
 	"gorm.io/gorm"
 )
@@ -30,11 +31,13 @@ func (u *MenuController) UpdateMenu(menu system.SysMenu) (err error) {
 	upDateMap["path"] = menu.Path
 	upDateMap["name"] = menu.Name
 	upDateMap["hidden"] = menu.Hidden
+	upDateMap["redirect"] = menu.Redirect
 	upDateMap["component"] = menu.Component
 	upDateMap["sort"] = menu.Meta.Sort
 	upDateMap["title"] = menu.Meta.Title
 	upDateMap["keep_alive"] = menu.Meta.KeepAlive
 	upDateMap["icon"] = menu.Meta.Icon
+	upDateMap["affix"] = menu.Meta.Affix
 	if !errors.Is(global.MEIS_DB.Where("name = ? and id != ?", menu.Name, menu.ID).First(&system.SysMenu{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("菜单名重复")
 	}
@@ -123,7 +126,7 @@ func (m *MenuController) GetRoleDefaultRouter(user *system.SysUser) (treeMap map
 	for i := 0; i < len(menuTreeMap); i++ {
 		err = m.getBaseChildrenList(&menuTreeMap[i], treeMap)
 	}
-
+	fmt.Println("treeMap", treeMap)
 	return treeMap, err
 
 }

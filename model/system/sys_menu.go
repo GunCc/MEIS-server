@@ -34,4 +34,5 @@ type Meta struct {
 	Title     string `json:"title" gorm:"菜单名"`
 	KeepAlive bool   `json:"keepAlive" gorm:"comment:是否缓存"`
 	Icon      string `json:"icon" gorm:"comment:菜单图标"`
+	Affix     bool   `json:"affix" gorm:"comment:菜单在tabs中是否不能删除;default:false"`
 }

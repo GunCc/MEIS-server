@@ -79,7 +79,7 @@ func (u *RoleController) SetRoleMenu(rm systemReq.RoleMenus) (err error) {
 	var role system.SysRole
 
 	// 找到并且打开角色菜单
-	global.MEIS_DB.Preload("SysMenu").First(&role, "id = ?", rm.RoleId)
+	global.MEIS_DB.Preload("SysMenu").First(&role, "role_id = ?", rm.RoleId)
 	var menus []system.SysMenu
 	for _, v := range rm.MenuIds {
 		var menu system.SysMenu
