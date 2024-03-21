@@ -20,7 +20,7 @@ func (p *ProjectRouter) InitProjectRouter(Router *gin.RouterGroup) {
 		projectRouter.POST("/create", projectApi.CreateProject) // 修改员工信息
 	}
 	{
-		projectRouterWithoutRecord.POST("/getList", projectApi.GetProjectList)     // 员工列表
-		projectRouterWithoutRecord.POST("/getUserInfo", projectApi.GetProjectInfo) // 获取员工信息
+		projectRouterWithoutRecord.POST("/getList", projectApi.GetProjectList) // 员工列表
+		projectRouterWithoutRecord.POST("/getInfo", projectApi.GetProjectInfo) // 获取员工信息
 	}
 }

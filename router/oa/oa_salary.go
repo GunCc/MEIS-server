@@ -20,7 +20,7 @@ func (p *SalaryRouter) InitSalaryRouter(Router *gin.RouterGroup) {
 		salaryRouter.POST("/create", salaryApi.CreateSalary) // 修改员工信息
 	}
 	{
-		salaryRouterWithoutRecord.POST("/getList", salaryApi.GetSalaryList)     // 员工列表
-		salaryRouterWithoutRecord.POST("/getUserInfo", salaryApi.GetSalaryInfo) // 获取员工信息
+		salaryRouterWithoutRecord.POST("/getList", salaryApi.GetSalaryList) // 员工列表
+		salaryRouterWithoutRecord.POST("/getInfo", salaryApi.GetSalaryInfo) // 获取员工信息
 	}
 }

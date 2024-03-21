@@ -20,7 +20,7 @@ func (p *PersonnelRouter) InitPersonnelRouter(Router *gin.RouterGroup) {
 		personnelRouter.POST("/create", personnelApi.CreatePersonnel) // 修改员工信息
 	}
 	{
-		personnelRouterWithoutRecord.POST("/getList", personnelApi.GetPersonnelList)     // 员工列表
-		personnelRouterWithoutRecord.POST("/getUserInfo", personnelApi.GetPersonnelInfo) // 获取员工信息
+		personnelRouterWithoutRecord.POST("/getList", personnelApi.GetPersonnelList) // 员工列表
+		personnelRouterWithoutRecord.POST("/getInfo", personnelApi.GetPersonnelInfo) // 获取员工信息
 	}
 }

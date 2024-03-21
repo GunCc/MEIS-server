@@ -20,7 +20,7 @@ func (p *TaskRouter) InitTaskRouter(Router *gin.RouterGroup) {
 		taskRouter.POST("/create", taskApi.CreateTask) // 修改员工信息
 	}
 	{
-		taskRouterWithoutRecord.POST("/getList", taskApi.GetTaskList)     // 员工列表
-		taskRouterWithoutRecord.POST("/getUserInfo", taskApi.GetTaskInfo) // 获取员工信息
+		taskRouterWithoutRecord.POST("/getList", taskApi.GetTaskList) // 员工列表
+		taskRouterWithoutRecord.POST("/getInfo", taskApi.GetTaskInfo) // 获取员工信息
 	}
 }

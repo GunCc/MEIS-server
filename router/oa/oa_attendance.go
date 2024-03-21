@@ -20,7 +20,7 @@ func (p *AttendanceRouter) InitAttendanceRouter(Router *gin.RouterGroup) {
 		attendanceRouter.POST("/create", attendanceApi.CreateAttendance) // 修改员工信息
 	}
 	{
-		attendanceRouterWithoutRecord.POST("/getList", attendanceApi.GetAttendanceList)     // 员工列表
-		attendanceRouterWithoutRecord.POST("/getUserInfo", attendanceApi.GetAttendanceInfo) // 获取员工信息
+		attendanceRouterWithoutRecord.POST("/getList", attendanceApi.GetAttendanceList) // 员工列表
+		attendanceRouterWithoutRecord.POST("/getInfo", attendanceApi.GetAttendanceInfo) // 获取员工信息
 	}
 }

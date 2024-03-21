@@ -20,7 +20,7 @@ func (p *TrainRouter) InitTrainRouter(Router *gin.RouterGroup) {
 		trainRouter.POST("/create", trainApi.CreateTrain) // 修改员工信息
 	}
 	{
-		trainRouterWithoutRecord.POST("/getList", trainApi.GetTrainList)     // 员工列表
-		trainRouterWithoutRecord.POST("/getUserInfo", trainApi.GetTrainInfo) // 获取员工信息
+		trainRouterWithoutRecord.POST("/getList", trainApi.GetTrainList) // 员工列表
+		trainRouterWithoutRecord.POST("/getInfo", trainApi.GetTrainInfo) // 获取员工信息
 	}
 }
