@@ -30,6 +30,8 @@ func Routers() *gin.Engine {
 	}
 	// 无校验权限api
 	SystemRouter := router.RouterGroupApp.System
+	OARouter := router.RouterGroupApp.OA
+
 	{
 		SystemRouter.InitBaseRouter(PublicGroup)
 		SystemRouter.InitDBRouter(PublicGroup)
@@ -38,12 +40,21 @@ func Routers() *gin.Engine {
 	PrivateGroup := Router.Group("")
 	PrivateGroup.Use(middleware.JWTAuth())
 	{
+
+		// 系统相关路由
 		SystemRouter.InitUserRouter(PrivateGroup)
 		SystemRouter.InitResourceRouter(PrivateGroup)
 		SystemRouter.InitRoleRouter(PrivateGroup)
 		SystemRouter.InitMenuRouter(PrivateGroup)
 		SystemRouter.InitOperationRecordRouter(PrivateGroup)
 
+		// OA 路由
+		OARouter.InitPersonnelRouter(PrivateGroup)
+		OARouter.InitAttendanceRouter(PrivateGroup)
+		OARouter.InitProjectRouter(PrivateGroup)
+		OARouter.InitSalaryRouter(PrivateGroup)
+		OARouter.InitTaskRouter(PrivateGroup)
+		OARouter.InitTrainRouter(PrivateGroup)
 	}
 
 	return Router
