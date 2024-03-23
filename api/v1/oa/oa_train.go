@@ -13,21 +13,21 @@ import (
 type TrainApi struct {
 }
 
-// 获取员工列表
+// 获取培训列表
 func (u *TrainApi) GetTrainList(ctx *gin.Context) {
 	var info commenReq.ListInfo
 
 	err := ctx.ShouldBindJSON(&info)
 	if err != nil {
-		global.MEIS_LOGGER.Error("获取员工列表参数错误", zap.Error(err))
-		response.FailWithMessage("获取员工列表参数错误", ctx)
+		global.MEIS_LOGGER.Error("获取培训列表参数错误", zap.Error(err))
+		response.FailWithMessage("获取培训列表参数错误", ctx)
 		return
 	}
 
 	list, total, err := TrainController.GetTrainList(info)
 	if err != nil {
-		global.MEIS_LOGGER.Error("获取员工列表参数错误", zap.Error(err))
-		response.FailWithMessage("获取员工列表参数错误", ctx)
+		global.MEIS_LOGGER.Error("获取培训列表参数错误", zap.Error(err))
+		response.FailWithMessage("获取培训列表参数错误", ctx)
 		return
 	}
 	response.SuccessWithDetailed(response.ListRes{
@@ -38,58 +38,58 @@ func (u *TrainApi) GetTrainList(ctx *gin.Context) {
 	}, "数据获取成功", ctx)
 }
 
-// 获取员工信息
+// 获取培训信息
 func (u *TrainApi) GetTrainInfo(ctx *gin.Context) {
 	var info commenReq.GetById
 	err := ctx.ShouldBindJSON(&info)
 	if err != nil {
-		global.MEIS_LOGGER.Error("获取员工参数错误", zap.Error(err))
-		response.FailWithMessage("获取员工参数错误", ctx)
+		global.MEIS_LOGGER.Error("获取培训参数错误", zap.Error(err))
+		response.FailWithMessage("获取培训参数错误", ctx)
 		return
 	}
 
 	user, err := TrainController.GetTrainInfo(info.ID)
 	if err != nil {
-		global.MEIS_LOGGER.Error("获取员工参数错误", zap.Error(err))
-		response.FailWithMessage("获取员工参数错误", ctx)
+		global.MEIS_LOGGER.Error("获取培训参数错误", zap.Error(err))
+		response.FailWithMessage("获取培训参数错误", ctx)
 		return
 	}
 	response.SuccessWithDetailed(user, "数据获取成功", ctx)
 }
 
-// 删除某个员工
+// 删除某个培训
 func (u *TrainApi) RemoveTrain(ctx *gin.Context) {
 	var info oaModel.OATrain
 	err := ctx.ShouldBindJSON(&info)
 	if err != nil {
-		global.MEIS_LOGGER.Error("获取员工参数错误", zap.Error(err))
-		response.FailWithMessage("获取员工参数错误", ctx)
+		global.MEIS_LOGGER.Error("获取培训参数错误", zap.Error(err))
+		response.FailWithMessage("获取培训参数错误", ctx)
 		return
 	}
 
 	err = TrainController.RemoveTrain(info)
 	if err != nil {
-		global.MEIS_LOGGER.Error("获取员工参数错误", zap.Error(err))
-		response.FailWithMessage("获取员工参数错误", ctx)
+		global.MEIS_LOGGER.Error("获取培训参数错误", zap.Error(err))
+		response.FailWithMessage("获取培训参数错误", ctx)
 		return
 	}
 	response.SuccessWithMessage("删除成功", ctx)
 }
 
-// 新增某个员工
+// 新增某个培训
 func (u *TrainApi) CreateTrain(ctx *gin.Context) {
 	var info oaModel.OATrain
 
 	err := ctx.ShouldBindJSON(&info)
 	if err != nil {
-		global.MEIS_LOGGER.Error("获取员工参数错误", zap.Error(err))
-		response.FailWithMessage("获取员工参数错误", ctx)
+		global.MEIS_LOGGER.Error("获取培训参数错误", zap.Error(err))
+		response.FailWithMessage("获取培训参数错误", ctx)
 		return
 	}
 
 	err = TrainController.CreateTrain(info)
 	if err != nil {
-		global.MEIS_LOGGER.Error("修改员工错误", zap.Error(err))
+		global.MEIS_LOGGER.Error("修改培训错误", zap.Error(err))
 		response.FailWithMessage(err.Error(), ctx)
 		return
 	}
@@ -97,20 +97,20 @@ func (u *TrainApi) CreateTrain(ctx *gin.Context) {
 
 }
 
-// 修改某个员工
+// 修改某个培训
 func (u *TrainApi) UpdateTrain(ctx *gin.Context) {
 	var info oaModel.OATrain
 
 	err := ctx.ShouldBindJSON(&info)
 	if err != nil {
-		global.MEIS_LOGGER.Error("获取员工参数错误", zap.Error(err))
-		response.FailWithMessage("获取员工参数错误", ctx)
+		global.MEIS_LOGGER.Error("获取培训参数错误", zap.Error(err))
+		response.FailWithMessage("获取培训参数错误", ctx)
 		return
 	}
 
 	err = TrainController.UpdateTrain(info)
 	if err != nil {
-		global.MEIS_LOGGER.Error("修改员工错误", zap.Error(err))
+		global.MEIS_LOGGER.Error("修改培训错误", zap.Error(err))
 		response.FailWithMessage(err.Error(), ctx)
 		return
 	}

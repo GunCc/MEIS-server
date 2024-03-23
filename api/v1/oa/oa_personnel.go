@@ -81,6 +81,7 @@ func (u *PersonnelApi) CreatePersonnel(ctx *gin.Context) {
 	var info oaModel.OAPersonnel
 
 	err := ctx.ShouldBindJSON(&info)
+
 	if err != nil {
 		global.MEIS_LOGGER.Error("获取员工参数错误", zap.Error(err))
 		response.FailWithMessage("获取员工参数错误", ctx)

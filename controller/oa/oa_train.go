@@ -9,7 +9,7 @@ import (
 type TrainController struct {
 }
 
-// 获取员工列表
+// 获取培训列表
 func (u *TrainController) GetTrainList(info commenReq.ListInfo) (list interface{}, total int64, err error) {
 	limit := info.PageSize
 	offset := info.PageSize * (info.Page - 1)
@@ -23,29 +23,28 @@ func (u *TrainController) GetTrainList(info commenReq.ListInfo) (list interface{
 	return trainList, total, err
 }
 
-// 删除某个员工
+// 删除某个培训
 func (i *TrainController) RemoveTrain(info oa.OATrain) (err error) {
 	// 增加这个属性{Unscoped}就是强删除
-	err = global.MEIS_DB.Model(oa.OATrain{}).Where("id = ?", info.ID).Delete(&info).Error
+	err = global.MEIS_DB.Delete(&oa.OATrain{}, info.ID).Error
 	return err
 }
 
-// 添加某个员工
+// 添加某个培训
 func (i *TrainController) CreateTrain(info oa.OATrain) (err error) {
-	var trainFormDb oa.OATrain
-
-	return global.MEIS_DB.Where("id = ?", info.ID).First(&trainFormDb).Create(info).Error
+	var personnel = oa.OAPersonnel{}
+	personnel.ID = info.PersonnelID
+	info.OAPersonnel = personnel
+	return global.MEIS_DB.Model(&oa.OATrain{}).Create(&info).Error
 }
 
-// 修改某个员工
+// 修改某个培训
 func (i *TrainController) UpdateTrain(info oa.OATrain) (err error) {
 	var trainFormDb oa.OATrain
-
-	return global.MEIS_DB.Where("id = ?", info.ID).First(&trainFormDb).Updates(info).Error
-
+	return global.MEIS_DB.Where("id = ?", info.ID).First(&trainFormDb).Updates(&info).Error
 }
 
-// 获取员工信息
+// 获取培训信息
 func (u *TrainController) GetTrainInfo(id int) (train oa.OATrain, err error) {
 	err = global.MEIS_DB.First(&train, "id = ?", id).Error
 	if err != nil {

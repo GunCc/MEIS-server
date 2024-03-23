@@ -19,28 +19,28 @@ func (u *AttendanceController) GetAttendanceList(info commenReq.ListInfo) (list 
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Find(&salaryList).Error
+	err = db.Limit(limit).Offset(offset).Preload("OAPersonnel").Find(&salaryList).Error
 	return salaryList, total, err
 }
 
 // 删除某个考勤
 func (i *AttendanceController) RemoveAttendance(info oa.OAAttendance) (err error) {
 	// 增加这个属性{Unscoped}就是强删除
-	err = global.MEIS_DB.Model(oa.OAAttendance{}).Where("id = ?", info.ID).Delete(&info).Error
+	err = global.MEIS_DB.Delete(&oa.OAAttendance{}, info.ID).Error
 	return err
 }
 
 // 添加某个考勤
 func (i *AttendanceController) CreateAttendance(info oa.OAAttendance) (err error) {
-	var salaryFormDb oa.OAAttendance
-	return global.MEIS_DB.Where("id = ?", info.ID).First(&salaryFormDb).Create(info).Error
+	var personnel = oa.OAPersonnel{}
+	personnel.ID = info.PersonnelID
+	info.OAPersonnel = personnel
+	return global.MEIS_DB.Create(&info).Error
 }
 
 // 修改某个考勤
 func (i *AttendanceController) UpdateAttendance(info oa.OAAttendance) (err error) {
-	var salaryFormDb oa.OAAttendance
-
-	return global.MEIS_DB.Where("id = ?", info.ID).First(&salaryFormDb).Updates(info).Error
+	return global.MEIS_DB.Where("id = ?", info.ID).Updates(&info).Error
 
 }
 

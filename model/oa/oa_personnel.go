@@ -10,8 +10,8 @@ type OAPersonnel struct {
 	Name      string      `json:"name" gorm:"comment:姓名"`
 	Phone     string      `json:"phone" gorm:"comment:手机号"`
 	Email     string      `json:"email" gorm:"comment:邮箱"`
-	Status    int         `json:"status" gorm:"comment:员工状态1入职2离职"`
-	OAProject []OAProject `json:"-" gorm:"comment:负责人;many2many:personnel_projects"`
+	Status    int         `json:"status" gorm:"comment:员工状态1入职0离职"`
+	OAProject []OAProject `json:"projects" gorm:"comment:负责人;many2many:personnel_projects"`
 }
 
 func (OAPersonnel) TableName() string {

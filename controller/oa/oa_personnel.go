@@ -5,6 +5,7 @@ import (
 	commenReq "MEIS-server/model/commen/request"
 	"MEIS-server/model/oa"
 	"errors"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -38,19 +39,20 @@ func (i *PersonnelController) CreatePersonnel(info oa.OAPersonnel) (err error) {
 	if !errors.Is(global.MEIS_DB.Where("id = ? ", info.ID).First(&oa.OAPersonnel{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("工号重复")
 	}
-	return global.MEIS_DB.Create(info).Error
+	return global.MEIS_DB.Create(&info).Error
 }
 
 // 修改某个员工
 func (i *PersonnelController) UpdatePersonnel(info oa.OAPersonnel) (err error) {
-	var personnelFormDb oa.OAPersonnel
+	err = global.MEIS_DB.Model(oa.OAPersonnel{}).Where("id = ?", info.ID).Updates(map[string]interface{}{
+		"name":       info.Name,
+		"updated_at": time.Now(),
+		"status":     info.Status,
+		"phone":      info.Phone,
+		"email":      info.Email,
+	}).Error
 
-	if !errors.Is(global.MEIS_DB.Where("id = ? and id != ?", info.ID, info.ID).First(&oa.OAPersonnel{}).Error, gorm.ErrRecordNotFound) {
-		return errors.New("工号重复")
-	}
-
-	return global.MEIS_DB.Where("id = ?", info.ID).First(&personnelFormDb).Updates(info).Error
-
+	return err
 }
 
 // 获取员工信息
