@@ -9,6 +9,8 @@ import (
 type AttendanceController struct {
 }
 
+var NewAttendanceController = new(AttendanceController)
+
 // 获取考勤列表
 func (u *AttendanceController) GetAttendanceList(info commenReq.ListInfo) (list interface{}, total int64, err error) {
 	limit := info.PageSize
@@ -49,6 +51,14 @@ func (i *AttendanceController) UpdateAttendance(info oa.OAAttendance) (err error
 // 获取考勤信息
 func (u *AttendanceController) GetAttendanceInfo(id int) (attendance oa.OAAttendance, err error) {
 	err = global.MEIS_DB.First(&attendance, "id = ?", id).Error
+	if err != nil {
+		return attendance, err
+	}
+	return attendance, err
+}
+
+func (u *AttendanceController) GetAttendanceInfoByPersonnelID(id int) (attendance oa.OAAttendance, err error) {
+	err = global.MEIS_DB.First(&attendance, "personnel_id = ?", id).Error
 	if err != nil {
 		return attendance, err
 	}

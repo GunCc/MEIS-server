@@ -15,12 +15,13 @@ func (p *SalaryRouter) InitSalaryRouter(Router *gin.RouterGroup) {
 	salaryRouterWithoutRecord := Router.Group("oa").Group("salary")
 	salaryApi := api.ApiGroupApp.OAApi.SalaryApi
 	{
-		salaryRouter.POST("/remove", salaryApi.RemoveSalary) // 删除员工
-		salaryRouter.POST("/update", salaryApi.UpdateSalary) // 修改员工信息
-		salaryRouter.POST("/create", salaryApi.CreateSalary) // 修改员工信息
+		salaryRouter.POST("/remove", salaryApi.RemoveSalary)   // 删除薪资
+		salaryRouter.POST("/update", salaryApi.UpdateSalary)   // 修改薪资信息
+		salaryRouter.POST("/create", salaryApi.CreateSalary)   // 修改薪资信息
+		salaryRouter.POST("/sendSalary", salaryApi.SendSalary) // 修改薪资信息
 	}
 	{
-		salaryRouterWithoutRecord.POST("/getList", salaryApi.GetSalaryList) // 员工列表
-		salaryRouterWithoutRecord.POST("/getInfo", salaryApi.GetSalaryInfo) // 获取员工信息
+		salaryRouterWithoutRecord.POST("/getList", salaryApi.GetSalaryList) // 薪资列表
+		salaryRouterWithoutRecord.POST("/getInfo", salaryApi.GetSalaryInfo) // 获取薪资信息
 	}
 }

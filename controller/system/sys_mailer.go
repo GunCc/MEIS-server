@@ -28,13 +28,10 @@ type MailerController struct {
 
 // 发送验证码
 func (mail *MailerController) SendEmail(emailTo request.SysReqEmailCode) (res string, err error) {
-
-	
 	if emailTo.ToMail != "" && !errors.Is(global.MEIS_DB.Where("email = ?", emailTo.ToMail).First(&system.SysUser{}).Error, gorm.ErrRecordNotFound) {
 		return "发送失败", errors.New("邮箱已经被注册")
 	}
 
-	// sc, err := global.MEIS_MAILER.Dial()
 	if err != nil {
 		return "发送失败", err
 	}
@@ -53,9 +50,6 @@ func (mail *MailerController) SendEmail(emailTo request.SysReqEmailCode) (res st
 	m.SetHeader("To", emailTo.ToMail)
 	m.SetHeader("Subject", "邮箱验证码")
 	m.SetBody("text/html", fmt.Sprintf("邮箱发送成功,验证码：%v", code))
-	// if err = gomail.Send(sc, m); err != nil {
-	// 	return "发送失败", err
-	// }
 	return fmt.Sprintf("邮箱发送成功,验证码：%v", code), nil
 }
 

@@ -8,7 +8,7 @@ captcha:
     key-long: 4
 email:
     account: 15817405529@163.com
-    auth-code: IRGRSOJLCOETCEIC
+    auth-code: EAMUZAVMEKFEVSYP
     ttl: 5
     expires-time: 5m
 jwt:
