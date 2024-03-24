@@ -12,6 +12,8 @@ import (
 type ProjectController struct {
 }
 
+var NewProjectController = new(ProjectController)
+
 // 获取项目列表
 func (u *ProjectController) GetProjectList(info commenReq.ListInfo) (list interface{}, total int64, err error) {
 	limit := info.PageSize
@@ -22,7 +24,7 @@ func (u *ProjectController) GetProjectList(info commenReq.ListInfo) (list interf
 	if err != nil {
 		return
 	}
-	err = db.Limit(limit).Offset(offset).Preload("ResponsiblePersonnel").Find(&projectList).Error
+	err = db.Limit(limit).Offset(offset).Find(&projectList).Error
 	return projectList, total, err
 }
 
@@ -35,7 +37,7 @@ func (i *ProjectController) RemoveProject(info oa.OAProject) (err error) {
 
 // 添加某个项目
 func (i *ProjectController) CreateProject(info oa.OAProject) (err error) {
-	return global.MEIS_DB.Create(info).Error
+	return global.MEIS_DB.Create(&info).Error
 }
 
 // 修改某个项目
@@ -44,7 +46,7 @@ func (i *ProjectController) UpdateProject(info oa.OAProject) (err error) {
 	if !errors.Is(global.MEIS_DB.Where(" id == ?", info.ID).First(&oa.OAProject{}).Error, gorm.ErrRecordNotFound) {
 		return errors.New("找不到改项目")
 	}
-	return global.MEIS_DB.Where("id = ?", info.ID).First(&projectFormDb).Updates(info).Error
+	return global.MEIS_DB.Where("id = ?", info.ID).First(&projectFormDb).Updates(&info).Error
 
 }
 
