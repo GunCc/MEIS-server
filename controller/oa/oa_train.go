@@ -20,6 +20,12 @@ func (u *TrainController) GetTrainList(info commenReq.ListInfo) (list interface{
 		return
 	}
 	err = db.Limit(limit).Offset(offset).Find(&trainList).Error
+	for key, v := range trainList {
+		personnel, err := NewPersonnelController.GetPersonnelInfo(int(v.PersonnelID))
+		if err == nil {
+			trainList[key].OAPersonnel = personnel
+		}
+	}
 	return trainList, total, err
 }
 
@@ -32,10 +38,7 @@ func (i *TrainController) RemoveTrain(info oa.OATrain) (err error) {
 
 // 添加某个培训
 func (i *TrainController) CreateTrain(info oa.OATrain) (err error) {
-	var personnel = oa.OAPersonnel{}
-	personnel.ID = info.PersonnelID
-	info.OAPersonnel = personnel
-	return global.MEIS_DB.Model(&oa.OATrain{}).Create(&info).Error
+	return global.MEIS_DB.Create(&info).Error
 }
 
 // 修改某个培训

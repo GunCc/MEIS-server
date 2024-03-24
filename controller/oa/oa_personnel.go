@@ -13,6 +13,8 @@ import (
 type PersonnelController struct {
 }
 
+var NewPersonnelController = new(PersonnelController)
+
 // 获取员工列表
 func (u *PersonnelController) GetPersonnelList(info commenReq.ListInfo) (list interface{}, total int64, err error) {
 	limit := info.PageSize
