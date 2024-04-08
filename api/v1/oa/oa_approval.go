@@ -5,6 +5,7 @@ import (
 	commenReq "MEIS-server/model/commen/request"
 	"MEIS-server/model/commen/response"
 	oaModel "MEIS-server/model/oa"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"go.uber.org/zap"
@@ -49,6 +50,7 @@ func (u *ApprovalApi) UpdateApproval(ctx *gin.Context) {
 		return
 	}
 
+	fmt.Println("sad", info)
 	err = ApprovalController.UpdateApproval(info)
 	if err != nil {
 		global.MEIS_LOGGER.Error("修改审批错误", zap.Error(err))

@@ -32,7 +32,9 @@ func (i *ApprovalController) CreateApproval(info oa.OAApproval) (err error) {
 
 // 修改审批
 func (i *ApprovalController) UpdateApproval(info oa.OAApproval) (err error) {
-	return global.MEIS_DB.Where("id = ?", info.ID).Updates(&info).Error
+	return global.MEIS_DB.Model(&oa.OAApproval{}).Where("id = ?", info.ID).Updates(map[string]interface{}{
+		"IsPast": info.IsPast,
+	}).Error
 }
 
 // 获取某一条审批信息
