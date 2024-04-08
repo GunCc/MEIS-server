@@ -107,11 +107,22 @@ func (u *SalaryApi) SendSalary(ctx *gin.Context) {
 	}
 
 	msg, err := SalaryController.SendSalary(info)
+
 	if err != nil {
 		global.MEIS_LOGGER.Error("发放薪资错误", zap.Error(err))
 		response.FailWithMessage(err.Error(), ctx)
 		return
 	}
+
+	approval := oaModel.OAApproval{
+		ApprovalTypeID: int(info.ID),
+		ApprovalType:   oaModel.APPROVAL_SALARY,
+		IsPast:         0,
+	}
+
+	// 生成审批
+	ApprovalController.CreateApproval(approval)
+
 	info.PayslipSend = true
 	err = SalaryController.UpdateSalary(info)
 	if err != nil {

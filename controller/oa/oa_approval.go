@@ -22,12 +22,6 @@ func (u *ApprovalController) GetApprovalList(info commenReq.ListInfo) (list inte
 		return
 	}
 	err = db.Limit(limit).Offset(offset).Find(&approvalList).Error
-	// for key, v := range approvalList {
-	// 	personnel, err := NewPersonnelController.GetPersonnelInfo(int(v.PersonnelID))
-	// 	if err == nil {
-	// 		approvalList[key].OAPersonnel = personnel
-	// 	}
-	// }
 	return approvalList, total, err
 }
 
@@ -39,4 +33,13 @@ func (i *ApprovalController) CreateApproval(info oa.OAApproval) (err error) {
 // 修改审批
 func (i *ApprovalController) UpdateApproval(info oa.OAApproval) (err error) {
 	return global.MEIS_DB.Where("id = ?", info.ID).Updates(&info).Error
+}
+
+// 获取某一条审批信息
+func (I *ApprovalController) GetApprovalInfo(id int, typeId int) (approval oa.OAApproval, err error) {
+	err = global.MEIS_DB.First(&approval, "approval_type_id = ? and approval_type = ?", id, typeId).Error
+	if err != nil {
+		return approval, err
+	}
+	return approval, err
 }

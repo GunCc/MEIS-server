@@ -13,6 +13,7 @@ type OASalary struct {
 	PayslipSend    bool        `json:"payslip_send" gorm:"comment:工资条是否已发放"`
 	PersonnelID    uint        `json:"personnel_id" gorm:"薪资关联的用户"`
 	OAPersonnel    OAPersonnel `json:"personnel" gorm:"foreignKey:ID;comment:员工"`
+	IsSend         int         `json:"is_send" gorm:"-"`
 }
 
 func (OASalary) TableName() string {

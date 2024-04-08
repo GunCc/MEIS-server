@@ -31,6 +31,13 @@ func (u *SalaryController) GetSalaryList(info commenReq.ListInfo) (list interfac
 		if err == nil {
 			salaryList[key].OAPersonnel = personnel
 		}
+
+		approval, err := NewApprovalController.GetApprovalInfo(int(v.ID), oa.APPROVAL_SALARY)
+		if err == nil {
+			salaryList[key].IsSend = approval.IsPast
+		} else {
+			salaryList[key].IsSend = 2
+		}
 	}
 	return salaryList, total, err
 }
