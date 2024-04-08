@@ -33,25 +33,6 @@ func JWTAuth() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
-		// if claims.ExpiresAt-time.Now().Unix() < claims.BufferTime {
-		// 	dr, _ := utils.ParseDuration(global.MEIS_CONFIG.JWT.ExpiresTime)
-		// 	claims.ExpiresAt = time.Now().Add(dr).Unix()
-		// 	newToken, _ := j.CreateTokenByOldToken(token, *claims)
-		// 	newClaims, _ := j.ParseToken(newToken)
-		// 	c.Header("new-token", newToken)
-		// 	c.Header("new-expires-at", strconv.FormatInt(newClaims.ExpiresAt, 10))
-		// 	if global.MEIS_CONFIG.System.UseMultipoint {
-		// 		RedisJwtToken, err := JWTController.GetJWTRedis(newClaims.Username)
-		// 		if err != nil {
-		// 			global.MEIS_LOGGER.Error("get redis jwt failed", zap.Error(err))
-		// 		} else { // 当之前的取成功时才进行拉黑操作
-		// 			// _ = jwtService.JsonInBlacklist(system.JwtBlacklist{Jwt: RedisJwtToken})
-		// 		}
-		// 		// 无论如何都要记录当前的活跃状态
-		// 		_ = JWTController.SetJWTRedis(newToken, newClaims.Username)
-		// 	}
-		// }
 		c.Set("claims", claims)
 		c.Next()
 	}

@@ -34,6 +34,7 @@ func RegisterTables(db *gorm.DB) {
 		&oa.OATask{},
 		&oa.OATrain{},
 		&oa.OAProject{},
+		&oa.OAApproval{},
 	)
 	if err != nil {
 		global.MEIS_LOGGER.Error("表初始化失败", zap.Error(err))

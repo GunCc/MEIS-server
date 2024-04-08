@@ -7,4 +7,5 @@ type OAControllerGroup struct {
 	SalaryController
 	TaskController
 	TrainController
+	ApprovalController
 }

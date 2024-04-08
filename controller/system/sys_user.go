@@ -67,16 +67,11 @@ func (u *UserController) Register(register request.Register) (user *system.SysUs
 func (u *UserController) Login(login request.Login) (innerUser *system.SysUser, err error) {
 	var sys_user system.SysUser
 	err = global.MEIS_DB.Where("email = ? or nick_name = ? or username = ?", login.Account, login.Account, login.Account).Preload("Roles").First(&sys_user).Error
-
-	fmt.Println("sys_user", sys_user)
-	fmt.Println("login", login.Password)
-
 	if err == nil {
 		if ok := utils.BcryptCheck(sys_user.Password, login.Password); !ok {
 			return nil, errors.New("密码错误")
 		}
 	}
-
 	return &sys_user, err
 }
 

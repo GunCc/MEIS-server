@@ -55,6 +55,8 @@ func Routers() *gin.Engine {
 		OARouter.InitSalaryRouter(PrivateGroup)
 		OARouter.InitTaskRouter(PrivateGroup)
 		OARouter.InitTrainRouter(PrivateGroup)
+		OARouter.InitApprovalRouter(PrivateGroup)
+
 	}
 
 	return Router

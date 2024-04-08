@@ -7,4 +7,5 @@ type OARouterGroup struct {
 	SalaryRouter
 	TaskRouter
 	TrainRouter
+	ApprovalRouter
 }
