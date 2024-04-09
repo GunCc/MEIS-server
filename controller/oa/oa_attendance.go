@@ -4,6 +4,11 @@ import (
 	"MEIS-server/global"
 	commenReq "MEIS-server/model/commen/request"
 	"MEIS-server/model/oa"
+	"errors"
+	"fmt"
+	"regexp"
+
+	"gorm.io/gorm"
 )
 
 type AttendanceController struct {
@@ -40,6 +45,32 @@ func (i *AttendanceController) RemoveAttendance(info oa.OAAttendance) (err error
 
 // 添加某个考勤
 func (i *AttendanceController) CreateAttendance(info oa.OAAttendance) (err error) {
+	fmt.Println("info", info.GrandTime)
+
+	if errors.Is(global.MEIS_DB.Where("id = ?", info.PersonnelID).First(&oa.OAPersonnel{}).Error, gorm.ErrRecordNotFound) {
+		return errors.New("员工不存在")
+	}
+
+	if info.WorkName != "" && errors.Is(global.MEIS_DB.Where("id = ? and name = ?", info.PersonnelID, info.WorkName).First(&oa.OAPersonnel{}).Error, gorm.ErrRecordNotFound) {
+		return errors.New("员工ID不匹配")
+	}
+
+	if info.Work == "" || info.Working == "" {
+		return errors.New("应出勤或实出勤不能为空")
+	}
+
+	// 编译正则表达式
+	re := regexp.MustCompile(`^2024-(0[1-9]|1[0-2])$`)
+
+	// 进行匹配
+	if !re.MatchString(info.GrandTime) {
+		return errors.New("发放时间格式有误")
+	}
+
+	if !errors.Is(global.MEIS_DB.Where("personnel_id = ? and grand_time = ?", info.PersonnelID, info.GrandTime).First(&oa.OAAttendance{}).Error, gorm.ErrRecordNotFound) {
+		return errors.New("当前此员工当前日期已有相关考勤信息")
+	}
+
 	return global.MEIS_DB.Create(&info).Error
 }
 

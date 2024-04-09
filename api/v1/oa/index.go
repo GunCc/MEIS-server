@@ -20,4 +20,5 @@ var (
 	TrainController      = controller.ControllerGroupApp.OAControllerGroup.TrainController
 	SalaryController     = controller.ControllerGroupApp.OAControllerGroup.SalaryController
 	ApprovalController   = controller.ControllerGroupApp.OAControllerGroup.ApprovalController
+	ResourceController   = controller.ControllerGroupApp.SystemControllerGroup.ResourceController
 )
